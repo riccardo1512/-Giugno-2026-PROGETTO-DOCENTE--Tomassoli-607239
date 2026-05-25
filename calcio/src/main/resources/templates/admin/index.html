@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>
+		SiwMovie - Amministrazione
+	</title>
+	<link rel="stylesheet" href="/css/stile.css" />
+</head>
+<body>
+	<div><img src="/images/logo-siw.png" width="50%" /></div>
+	<h1>Gestione</h1>
+	<h2>(riservato agli amministratori)</h2>
+	<div>	
+		<a href="/admin/movies/new">Aggiungi un film</a>
+	</div>			
+    <div>	
+		<form th:action="@{/logout}" method="POST" style="display:inline;">
+			<button type="submit">Logout</button>
+		</form>
+	</div>			
+</body>
+</html>

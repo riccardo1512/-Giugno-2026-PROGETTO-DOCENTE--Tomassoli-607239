@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Inserimento Film</title>
+	<link rel="stylesheet" href="/css/stile.css" />
+</head>
+
+<body>
+	<div><a href="/"><img src="/images/logo-siw.png" width="50%" /></a></div>
+<h1>Aggiungi un film</h1>
+    <form th:action="@{/admin/movies}" method="POST" th:object="${movie}">
+      <div th:if="${#fields.hasGlobalErrors()}">
+        <p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p>
+      </div>
+        <div>
+            Titolo: <span><input type="text" th:field="*{title}"/></span>
+            <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
+        </div>
+      <div>
+            Anno: <span><input type="text" th:field="*{year}"/></span>
+            <span th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></span>
+      </div>
+      <div>
+            URL immagine: <span><input type="url" th:field="*{urlImage}"/></span>
+            <span th:if="${#fields.hasErrors('urlImage')}" th:errors="*{urlImage}"></span>
+      </div>
+      <div>
+            Regista:
+            <span>
+            	<select th:field="*{director}">
+            		<option value="">Seleziona un regista</option>
+            		<option th:each="artist : ${artists}" th:value="${artist.id}" th:text="${artist.name}"></option>
+            	</select>
+            </span>
+            <span th:if="${#fields.hasErrors('director')}" th:errors="*{director}"></span>
+      </div>
+      <div>
+            Attori:
+            <th:block th:each="actor : *{actors}">
+                <input type="hidden" name="actorIds" th:value="${actor.id}"/>
+            </th:block>
+            <div>
+            	<select name="actorId">
+            		<option value="">-- Seleziona un attore --</option>
+            		<option th:each="artist : ${artists}" th:value="${artist.id}" th:text="${artist.name}"></option>
+            	</select>
+            	<button type="submit" name="action" value="addActor">Aggiungi</button>
+            </div>
+            <div th:if="${not #lists.isEmpty(movie.actors)}">
+            	<h3>Attori selezionati:</h3>
+            	<ul>
+            		<li th:each="actor : *{actors}" th:text="${actor.name}">Nome attore</li>
+            	</ul>
+            </div>
+            <span th:if="${#lists.isEmpty(movie.actors)}">Nessun attore specificato</span>
+      </div>
+      <div>
+            <span><button type="submit" name="action" value="save">Conferma</button></span>
+      </div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Tornei</title>
+	<link rel="stylesheet" href="/css/stile.css" />
+</head>
+
+<body>
+	<div><a href="/"><img src="/images/logo-siw.png" width="50%" /></a></div>
+	<h1>Film</h1>
+	<div th:if="${tournaments==null || tournaments.isEmpty()}">Non ci sono team nel sistema</div>
+	<ul>
+		<li th:each="tournament : ${tournaments}">
+			<a th:href="@{'/tournaments' + '/' + ${tournament.id}}" th:text="${tournament.name}">nome</a>
+		</li>
+	</ul>
+</body>
+
+</html>

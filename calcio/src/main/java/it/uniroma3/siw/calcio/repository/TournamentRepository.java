@@ -1,9 +1,10 @@
 package it.uniroma3.siw.calcio.repository;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
 
 import it.uniroma3.siw.calcio.model.Tournament;
 
-public interface TournamentRepository extends CrudRepository<Tournament, Long>{
+public interface TournamentRepository extends JpaRepository<Tournament, Long>{
     
 }

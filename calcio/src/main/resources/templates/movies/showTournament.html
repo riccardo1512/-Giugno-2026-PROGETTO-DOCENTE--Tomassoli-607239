@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Tournament</title>
+	<link rel="stylesheet" href="/css/stile.css" />
+</head>
+
+@Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    private String name;
+    private int year;
+    private String description;
+
+    @ManyToOne
+    private List<Team> teams;
+
+    @OneToMany
+    private List<Match> matches;
+
+<body>
+	<div><a href="/"><img src="/images/logo-siw.png" width="50%" /></a></div>
+	<h1>Dettagli Torneo</h1>
+	<div th:if="${tournament}">
+
+		<span th:text="${tournament.name}">Champions</span>
+
+		<span th:text="'(' + ${tournament.yearOfFoundation} + ')'">2000</span>
+
+		<span th:text="'(' + ${tournament.description} + ')'">descrizione</span>
+
+		<!-- <span><img width="5%" th:src="${team.urlImage}" alt="Immagine del film" /></span> -->
+
+		<!-- 
+		<div>
+			<strong>:</strong> 
+			<span th:if="${movie.director}" th:text="${movie.director.name}">Nome regista</span>
+			<span th:unless="${movie.director}">Non specificato</span>
+		</div> -->
+
+		<div>
+			<strong>Team iscritti:</strong>
+			<ul th:if="${not #lists.isEmpty(team.teams)}">
+				<li th:each="team : ${team.teams}" th:text="${team.name}">Nome team</li>
+			</ul>
+			<span th:if="${#lists.isEmpty(movie.teams)}">Nessun team specificato</span>
+		</div>
+
+
+		<div>
+			<strong>Partite:</strong>
+			<ul th:if="${not #lists.isEmpty(team.matches)}">
+				<li th:each="match : ${team.matches}" th:text="${match}">Match</li>
+			</ul>
+			<span th:if="${#lists.isEmpty(movie.matches)}">Nessun match specificato</span>
+		</div>
+
+		
+	</div>
+	
+	<div th:unless="${tournament}">Non esiste</div>
+</body>
+
+</html>
