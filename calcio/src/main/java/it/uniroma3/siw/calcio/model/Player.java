@@ -6,6 +6,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Player {
@@ -20,6 +22,7 @@ public class Player {
     private String role;
     private int height; // in cm
 
-    // Relazioni (minime):
-    // • ogni giocatore appartiene a una sola squadra
+
+    @ManyToOne
+    private Team team;
 }

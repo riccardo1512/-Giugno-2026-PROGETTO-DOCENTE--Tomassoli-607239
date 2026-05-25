@@ -1,9 +1,12 @@
 package it.uniroma3.siw.calcio.model;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Referee {
@@ -16,6 +19,7 @@ public class Referee {
     private String surname;
     private String refereeCode;
 
-    /*Relazioni (minime):
-    • un arbitro può dirigere più partite  */
+    
+    @OneToMany(mappedBy = "referee")
+    private List<Match> matches;
 }

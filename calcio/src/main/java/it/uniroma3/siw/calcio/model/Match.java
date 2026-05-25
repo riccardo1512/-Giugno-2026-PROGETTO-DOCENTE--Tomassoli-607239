@@ -7,6 +7,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Match {
@@ -21,11 +24,15 @@ public class Match {
     //goalsAway
     private MatchState state;
 
-    /*
-    Relazioni (minime):
-    • una partita appartiene a un torneo
-    • una partita coinvolge due squadre
-    • una partita ha un arbitro 
-    */
+    @OneToOne
+    private Tournament tournament;
+    
+    @ManyToOne
+    private Team teamHome;
+    @ManyToOne
+    private Team teamAway;
+    
+    @ManyToOne
+    private Referee referee;
     
 }

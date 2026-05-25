@@ -1,9 +1,12 @@
 package it.uniroma3.siw.calcio.model;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Team {
@@ -17,7 +20,14 @@ public class Team {
     private int yearOfFoundation;
     private String city;
 
-    //Relazioni (minime):
-    //• una squadra partecipa a uno o più tornei
-    //• una squadra ha più giocatori 
+    @OneToMany(mappedBy = "teams")
+    private List<Tournament> tournaments;
+
+    @OneToMany(mappedBy = "team")
+    private List<Player> players;
+
+    @OneToMany(mappedBy = "teamHome")
+    private List<Match> matchesHome;
+    @OneToMany(mappedBy = "teamAway")
+    private List<Match> matchesAway;
 }
