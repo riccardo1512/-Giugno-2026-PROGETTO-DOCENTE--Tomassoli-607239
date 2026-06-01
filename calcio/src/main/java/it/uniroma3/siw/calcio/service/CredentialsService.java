@@ -1,4 +1,4 @@
-package it.uniroma3.siw.movie.service;
+package it.uniroma3.siw.calcio.service;
 
 import java.util.Optional;
 
@@ -6,8 +6,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import it.uniroma3.siw.movie.model.Credentials;
-import it.uniroma3.siw.movie.repository.CredentialsRepository;
+import it.uniroma3.siw.calcio.model.Credentials;
+import it.uniroma3.siw.calcio.repository.CredentialsRepository;
 
 
 @Service

@@ -1,4 +1,4 @@
-package it.uniroma3.siw.movie.service;
+package it.uniroma3.siw.calcio.service;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,11 +35,11 @@ public class TeamService {
         if (duplicate) {
             throw new DuplicateTeamException(team.getName(), team.getYearOfFoundation());
         }
-        return teamRepository.save(team);
+        return this.teamRepository.save(team);
     }
 
     @Transactional
     public void deleteById(Long id) {
-        teamRepository.deleteById(id);
+        this.teamRepository.deleteById(id);
     }
 }
