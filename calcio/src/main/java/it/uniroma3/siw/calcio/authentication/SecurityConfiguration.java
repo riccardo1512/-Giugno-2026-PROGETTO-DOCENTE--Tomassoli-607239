@@ -12,6 +12,7 @@ import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
 
+import static it.uniroma3.siw.calcio.model.Credentials.DEFAULT_ROLE;
 import static it.uniroma3.siw.calcio.model.Credentials.ADMIN_ROLE;
 
 import javax.sql.DataSource;
@@ -45,7 +46,8 @@ public class SecurityConfiguration {
     protected SecurityFilterChain configure(final HttpSecurity httpSecurity) throws Exception {
 
         httpSecurity.authorizeHttpRequests(authorize -> {
-            authorize.requestMatchers(HttpMethod.GET, "/", "/index", "/register", "/movies", "/movies/**", "/css/**", "/images/**", "/favicon.ico").permitAll();
+            authorize.requestMatchers(HttpMethod.GET, "/", "/index", "/register", "/teams", "/teams/**", 
+            "/player", "/player/**", "/css/**", "/images/**", "/favicon.ico").permitAll();
             authorize.requestMatchers(HttpMethod.POST, "/register", "/login").permitAll();
             authorize.requestMatchers(HttpMethod.GET, "/admin/**").hasAnyAuthority(ADMIN_ROLE);
             authorize.requestMatchers(HttpMethod.POST, "/admin/**").hasAnyAuthority(ADMIN_ROLE);
@@ -54,7 +56,7 @@ public class SecurityConfiguration {
 
         httpSecurity.formLogin(form -> {
             form.loginPage("/login").permitAll();
-            form.defaultSuccessUrl("/", true);
+            form.defaultSuccessUrl("/success", true);
             form.failureUrl("/login?error=true");
         });
 
