@@ -32,7 +32,7 @@
 			<ul th:if="${not #lists.isEmpty(team.players)}">
 				<li th:each="player : ${team.players}" th:text="${player.name} + ' ' + ${player.surname}">Nome Cognome</li>
 			</ul>
-			<span th:if="${#lists.isEmpty(movie.actors)}">Nessun player specificato</span>
+			<span th:if="${#lists.isEmpty(team.players)}">Nessun player specificato</span>
 		</div>
 
 		<div>
@@ -40,7 +40,7 @@
 			<ul th:if="${not #lists.isEmpty(team.matchesHome)}">
 				<li th:each="matchH : ${team.matchesHome}" th:text="${matchH}">Match in casa</li>
 			</ul>
-			<span th:if="${#lists.isEmpty(movie.actors)}">Nessun match in casa specificato</span>
+			<span th:if="${#lists.isEmpty(team.matchesHome)}">Nessun match in casa specificato</span>
 		</div>
 
 		<div>
@@ -48,7 +48,7 @@
 			<ul th:if="${not #lists.isEmpty(team.matchesAway)}">
 				<li th:each="matchA : ${team.matchesAway}" th:text="${matchA}">Match fuori casa</li>
 			</ul>
-			<span th:if="${#lists.isEmpty(movie.actors)}">Nessun fuori casa specificato</span>
+			<span th:if="${#lists.isEmpty(team.matchesAway)}">Nessun fuori casa specificato</span>
 		</div>
 
 
