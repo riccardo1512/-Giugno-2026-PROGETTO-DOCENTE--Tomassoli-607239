@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nuovo Torneo</title>
+    <link rel="stylesheet" href="/css/stile.css" />
+</head>
+<body>
+    <header>
+		<div th:if="${userDetails}">
+			<span th:text="${userDetails.username}"></span>
+			<form th:action="@{/logout}" method="POST" style="display:inline;">
+				<button type="submit">Logout</button>
+			</form>
+		</div>
+    </header>
+    <h1>Aggiungi Torneo</h1>
+    <form th:action="@{/admin/tournaments}" method="POST" th:object="${tournament}">
+        <div th:if="${#fields.hasGlobalErrors()}">
+            <p th:each="err : ${#fields.globalErrors()}" th:text="${err}" style="color:red">...</p>
+        </div>
+        <div>
+            <label>Nome:</label> <input type="text" th:field="${tournament.name}" required />
+            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+        </div>
+        <div>
+            <label>Anno:</label> <input type="number" th:field="${tournament.year}" />
+            <span th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></span>
+        </div>
+        <div>
+            <label>Descrizione:</label> <textarea th:field="${tournament.description}"></textarea>
+            <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span>
+        </div>
+        <div><button type="submit">Salva</button></div>
+    </form>
+    <br>
+    <a th:href="@{/admin/index}">Torna alla dashboard Admin</a>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nuovo Giocatore</title>
+    <link rel="stylesheet" href="/css/stile.css" />
+</head>
+<body>
+    <header>
+		<div th:if="${userDetails}">
+			<span th:text="${userDetails.username}"></span>
+			<form th:action="@{/logout}" method="POST" style="display:inline;">
+				<button type="submit">Logout</button>
+			</form>
+		</div>
+    </header>
+    <h1>Aggiungi Giocatore</h1>
+    <form th:action="@{/admin/players}" method="POST" th:object="${player}">
+        <div th:if="${#fields.hasGlobalErrors()}">
+            <p th:each="err : ${#fields.globalErrors()}" th:text="${err}" style="color:red">...</p>
+        </div>
+        <div>
+            <label>Nome:</label> <input type="text" th:field="${player.name}" required />
+            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+        </div>
+        <div>
+            <label>Cognome:</label> <input type="text" th:field="${player.surname}" required />
+            <span th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></span>
+        </div>
+        <div>
+            <label>Data di Nascita:</label> <input type="date" th:field="${player.dateOfBirth}" />
+            <span th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}"></span>
+        </div>
+        <div>
+            <label>Ruolo:</label> <input type="text" th:field="${player.role}" />
+            <span th:if="${#fields.hasErrors('role')}" th:errors="*{role}"></span>
+        </div>
+        <div>
+            <label>Altezza (cm):</label> <input type="number" th:field="${player.height}" />
+            <span th:if="${#fields.hasErrors('height')}" th:errors="*{height}"></span>
+        </div>
+        <div><button type="submit">Salva</button></div>
+    </form>
+    <br>
+    <a th:href="@{/admin/index}">Torna alla dashboard Admin</a>
+</body>
+</html>

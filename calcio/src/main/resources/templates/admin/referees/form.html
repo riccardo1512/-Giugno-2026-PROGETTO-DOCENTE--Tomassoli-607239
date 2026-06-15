@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nuovo Arbitro</title>
+    <link rel="stylesheet" href="/css/stile.css" />
+</head>
+<body>
+    <header>
+		<div th:if="${userDetails}">
+			<span th:text="${userDetails.username}"></span>
+			<form th:action="@{/logout}" method="POST" style="display:inline;">
+				<button type="submit">Logout</button>
+			</form>
+		</div>
+    </header>
+    <h1>Aggiungi Arbitro</h1>
+    <form th:action="@{/admin/referees}" method="POST" th:object="${referee}">
+        <div th:if="${#fields.hasGlobalErrors()}">
+            <p th:each="err : ${#fields.globalErrors()}" th:text="${err}" style="color:red">...</p>
+        </div>
+        <div>
+            <label>Nome:</label> <input type="text" th:field="${referee.name}" required />
+            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+        </div>
+        <div>
+            <label>Cognome:</label> <input type="text" th:field="${referee.surname}" required />
+            <span th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></span>
+        </div>
+        <div>
+            <label>Codice Arbitro:</label> <input type="text" th:field="${referee.refereeCode}" />
+            <span th:if="${#fields.hasErrors('refereeCode')}" th:errors="*{refereeCode}"></span>
+        </div>
+        <div><button type="submit">Salva</button></div>
+    </form>
+    <br>
+    <a th:href="@{/admin/index}">Torna alla dashboard Admin</a>
+</body>
+</html>
