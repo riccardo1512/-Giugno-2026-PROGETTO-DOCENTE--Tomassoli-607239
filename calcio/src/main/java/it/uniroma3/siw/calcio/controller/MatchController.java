@@ -23,13 +23,13 @@ public class MatchController {
     @GetMapping("/matches")
     public String list(Model model) {
         model.addAttribute("matches", matchService.findAll());
-        return "matches/list";
+        return "matches/listMatch";
     }
 
     @GetMapping("/matches/{id}")
     public String show(@PathVariable Long id, Model model) {
         model.addAttribute("match", matchService.findById(id).orElse(null));
-        return "matches/show";
+        return "matches/showMatch";
     }
 
     @GetMapping("/admin/matches/new")

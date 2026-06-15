@@ -27,7 +27,7 @@ public class PlayerController {
 	@GetMapping("/players")
 	public String list(Model model) {
 		model.addAttribute("players", playerService.findAll());
-		return "players/list";
+		return "players/listPlayer";
 	}
 
 	@GetMapping("/admin/players/new")
@@ -80,6 +80,6 @@ public class PlayerController {
 		} else {
 			return "redirect:/players";
 		}
-		return "players/show";
+		return "players/showPlayer";
 	}
 }

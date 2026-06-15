@@ -36,7 +36,7 @@ public class TeamController {
     @GetMapping("/teams")
     public String list(Model model) {
         model.addAttribute("teams", teamService.findAll());
-        return "teams/list";
+        return "teams/listTeam";
     }
 
     @GetMapping("/teams/{id}")
@@ -46,7 +46,7 @@ public class TeamController {
             return "redirect:/teams";
         }
         model.addAttribute("team", optional.get());
-        return "teams/show";
+        return "teams/showTeam";
     }
 
     @GetMapping("/admin/teams/new")

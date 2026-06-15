@@ -23,8 +23,16 @@ public class TeamService {
         return this.teamRepository.findAll();
     }
 
+    @Transactional
     public Optional<Team> findById(Long id) {
-        return this.teamRepository.findById(id);
+        Optional<Team> teamOpt = this.teamRepository.findById(id);
+        if (teamOpt.isPresent()) {
+            Team team = teamOpt.get();
+            if (team.getPlayers() != null) team.getPlayers().size(); // Inizializza la lista
+            if (team.getMatchesHome() != null) team.getMatchesHome().size();
+            if (team.getMatchesAway() != null) team.getMatchesAway().size();
+        }
+        return teamOpt;
     }
 
     @Transactional

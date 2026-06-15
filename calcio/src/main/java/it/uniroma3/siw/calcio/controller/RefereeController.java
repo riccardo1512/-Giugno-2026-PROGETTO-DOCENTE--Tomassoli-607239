@@ -23,13 +23,13 @@ public class RefereeController {
     @GetMapping("/referees")
     public String list(Model model) {
         model.addAttribute("referees", refereeService.findAll());
-        return "referees/list";
+        return "referees/listReferee";
     }
 
     @GetMapping("/referees/{id}")
     public String show(@PathVariable Long id, Model model) {
         model.addAttribute("referee", refereeService.findById(id).orElse(null));
-        return "referees/show";
+        return "referees/showReferee";
     }
 
     @GetMapping("/admin/referees/new")

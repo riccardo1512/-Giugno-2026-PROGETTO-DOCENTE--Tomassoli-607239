@@ -24,7 +24,13 @@ public class TournamentService {
 
     @Transactional
     public Optional<Tournament> findById(Long id) {
-        return tournamentRepository.findById(id);
+        Optional<Tournament> tournamentOpt = this.tournamentRepository.findById(id);
+        if (tournamentOpt.isPresent()) {
+            Tournament tournament = tournamentOpt.get();
+            if (tournament.getTeams() != null) tournament.getTeams().size();
+            if (tournament.getMatches() != null) tournament.getMatches().size();
+        }
+        return tournamentOpt;
     }
 
     @Transactional

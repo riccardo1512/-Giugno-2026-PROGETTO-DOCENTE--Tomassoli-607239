@@ -2,65 +2,44 @@
 <html>
 
 <head>
-	<title>Tournament</title>
+	<title>Dettagli Torneo</title>
 	<link rel="stylesheet" href="/css/stile.css" />
 </head>
-
-@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    private String name;
-    private int year;
-    private String description;
-
-    @ManyToOne
-    private List<Team> teams;
-
-    @OneToMany
-    private List<Match> matches;
 
 <body>
 	<div><a href="/"><img src="/images/logo-siw.png" width="50%" /></a></div>
 	<h1>Dettagli Torneo</h1>
 	<div th:if="${tournament}">
 
-		<span th:text="${tournament.name}">Champions</span>
+		<span th:text="${tournament.name}">Nome Torneo</span>
 
-		<span th:text="'(' + ${tournament.yearOfFoundation} + ')'">2000</span>
+		<span th:text="'(' + ${tournament.year} + ')'">2025</span>
 
-		<span th:text="'(' + ${tournament.description} + ')'">descrizione</span>
-
-		<!-- <span><img width="5%" th:src="${team.urlImage}" alt="Immagine del torneo" /></span> -->
-
-		<!-- 
-		<div>
-			<strong>:</strong> 
-			<span th:if="${movie.director}" th:text="${movie.director.name}">Nome regista</span>
-			<span th:unless="${movie.director}">Non specificato</span>
-		</div> -->
+		<p th:text="${tournament.description}">descrizione</p>
 
 		<div>
-			<strong>Team iscritti:</strong>
-			<ul th:if="${not #lists.isEmpty(team.teams)}">
-				<li th:each="team : ${team.teams}" th:text="${team.name}">Nome team</li>
+			<strong>Squadre Iscritte:</strong>
+			<ul th:if="${not #lists.isEmpty(tournament.teams)}">
+				<li th:each="team : ${tournament.teams}">
+					<a th:href="@{'/teams' + '/' + ${team.id}}" th:text="${team.name}">Nome squadra</a>
+				</li>
 			</ul>
-			<span th:if="${#lists.isEmpty(movie.teams)}">Nessun team specificato</span>
+			<span th:if="${#lists.isEmpty(tournament.teams)}">Nessuna squadra iscritta.</span>
 		</div>
 
-
 		<div>
-			<strong>Partite:</strong>
-			<ul th:if="${not #lists.isEmpty(team.matches)}">
-				<li th:each="match : ${team.matches}" th:text="${match}">Match</li>
+			<strong>Partite in Programma:</strong>
+			<ul th:if="${not #lists.isEmpty(tournament.matches)}">
+				<li th:each="match : ${tournament.matches}">
+					<a th:href="@{'/matches' + '/' + ${match.id}}" th:text="${match.teamHome.name} + ' vs ' + ${match.teamAway.name}">Roma vs Lazio</a>
+				</li>
 			</ul>
-			<span th:if="${#lists.isEmpty(movie.matches)}">Nessun match specificato</span>
+			<span th:if="${#lists.isEmpty(tournament.matches)}">Nessuna partita programmata.</span>
 		</div>
 
-		
 	</div>
 	
-	<div th:unless="${tournament}">Non esiste</div>
+	<div th:unless="${tournament}">Il torneo richiesto non esiste.</div>
 </body>
 
 </html>

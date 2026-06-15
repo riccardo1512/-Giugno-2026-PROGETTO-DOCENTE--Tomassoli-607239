@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Dettagli Partita</title>
+	<link rel="stylesheet" href="/css/stile.css" />
+</head>
+<body>
+	<div><a href="/"><img src="/images/logo-siw.png" width="50%" /></a></div>
+	<h1>Dettagli Partita</h1>
+	<div th:if="${match}">
+
+		<h2>
+			<a th:href="@{'/teams/' + ${match.teamHome.id}}" th:text="${match.teamHome.name}">Squadra Casa</a>
+			<span> vs </span>
+			<a th:href="@{'/teams/' + ${match.teamAway.id}}" th:text="${match.teamAway.name}">Squadra Ospite</a>
+		</h2>
+
+		<div>
+			<strong>Torneo:</strong> 
+			<span th:if="${match.tournament}">
+				<a th:href="@{'/tournaments/' + ${match.tournament.id}}" th:text="${match.tournament.name}">Torneo</a>
+			</span>
+		</div>
+		<div>
+			<strong>Data e Ora:</strong> <span th:text="${match.date} + ' alle ' + ${match.time}">01/01/2025 20:45</span>
+		</div>
+		<div>
+			<strong>Stato:</strong> <span th:text="${match.state}">PROGRAMMATA</span>
+		</div>
+		<div>
+			<strong>Arbitro:</strong> 
+			<span th:if="${match.referee}" th:text="${match.referee.name} + ' ' + ${match.referee.surname}">Nome Arbitro</span>
+		</div>
+
+	</div>
+	
+	<div th:unless="${match}">La partita richiesta non esiste.</div>
+</body>
+</html>

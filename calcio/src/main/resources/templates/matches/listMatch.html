@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Partite</title>
+	<link rel="stylesheet" href="/css/stile.css" />
+</head>
+<body>
+	<div><a href="/"><img src="/images/logo-siw.png" width="50%" /></a></div>
+	<h1>Partite</h1>
+	<div th:if="${matches==null || matches.isEmpty()}">Non ci sono partite nel sistema</div>
+	<ul>
+		<li th:each="match : ${matches}">
+			<a th:href="@{'/matches' + '/' + ${match.id}}" th:text="${match.teamHome.name} + ' vs ' + ${match.teamAway.name}">Roma vs Lazio</a>
+		</li>
+	</ul>
+</body>
+</html>

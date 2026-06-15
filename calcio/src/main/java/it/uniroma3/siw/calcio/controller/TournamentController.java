@@ -23,13 +23,13 @@ public class TournamentController {
     @GetMapping("/tournaments")
     public String list(Model model) {
         model.addAttribute("tournaments", tournamentService.findAll());
-        return "tournaments/list";
+        return "tournaments/listTournament";
     }
 
     @GetMapping("/tournaments/{id}")
     public String show(@PathVariable Long id, Model model) {
         model.addAttribute("tournament", tournamentService.findById(id).orElse(null));
-        return "tournaments/show";
+        return "tournaments/showTournament";
     }
 
     @GetMapping("/admin/tournaments/new")

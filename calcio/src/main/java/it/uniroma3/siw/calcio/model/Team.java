@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 
 @Entity
@@ -15,12 +16,11 @@ public class Team {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-
     private String name;
     private int yearOfFoundation;
     private String city;
 
-    @OneToMany(mappedBy = "teams")
+    @ManyToMany(mappedBy = "teams")
     private List<Tournament> tournaments;
 
     @OneToMany(mappedBy = "team")
@@ -30,54 +30,71 @@ public class Team {
     private List<Match> matchesHome;
     @OneToMany(mappedBy = "teamAway")
     private List<Match> matchesAway;
+
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
+
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
+
     public int getYearOfFoundation() {
         return yearOfFoundation;
     }
+
     public void setYearOfFoundation(int yearOfFoundation) {
         this.yearOfFoundation = yearOfFoundation;
     }
+
     public String getCity() {
         return city;
     }
+
     public void setCity(String city) {
         this.city = city;
     }
+
     public List<Tournament> getTournaments() {
         return tournaments;
     }
+
     public void setTournaments(List<Tournament> tournaments) {
         this.tournaments = tournaments;
     }
+
     public List<Player> getPlayers() {
         return players;
     }
+
     public void setPlayers(List<Player> players) {
         this.players = players;
     }
+
     public List<Match> getMatchesHome() {
         return matchesHome;
     }
+
     public void setMatchesHome(List<Match> matchesHome) {
         this.matchesHome = matchesHome;
     }
+
     public List<Match> getMatchesAway() {
         return matchesAway;
     }
+
     public void setMatchesAway(List<Match> matchesAway) {
         this.matchesAway = matchesAway;
     }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -91,6 +108,7 @@ public class Team {
         result = prime * result + ((matchesAway == null) ? 0 : matchesAway.hashCode());
         return result;
     }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj)

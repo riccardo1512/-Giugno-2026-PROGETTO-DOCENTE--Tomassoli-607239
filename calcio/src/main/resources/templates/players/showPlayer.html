@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Dettagli Giocatore</title>
+	<link rel="stylesheet" href="/css/stile.css" />
+</head>
+<body>
+	<div><a href="/"><img src="/images/logo-siw.png" width="50%" /></a></div>
+	<h1>Dettagli Giocatore</h1>
+	<div th:if="${player}">
+
+		<h2 th:text="${player.name} + ' ' + ${player.surname}">Nome Cognome</h2>
+
+		<div>
+			<strong>Data di Nascita:</strong> <span th:text="${player.dateOfBirth}">01/01/2000</span>
+		</div>
+		<div>
+			<strong>Ruolo:</strong> <span th:text="${player.role}">Attaccante</span>
+		</div>
+		<div>
+			<strong>Altezza:</strong> <span th:text="${player.height} + ' cm'">180 cm</span>
+		</div>
+
+		<div>
+			<strong>Squadra:</strong> 
+			<span th:if="${player.team}">
+				<a th:href="@{'/teams/' + ${player.team.id}}" th:text="${player.team.name}">Nome Squadra</a>
+			</span>
+			<span th:unless="${player.team}">Svincolato</span>
+		</div>
+
+	</div>
+	
+	<div th:unless="${player}">Il giocatore richiesto non esiste.</div>
+</body>
+</html>

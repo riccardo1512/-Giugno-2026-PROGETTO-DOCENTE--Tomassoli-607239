@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
@@ -21,10 +22,10 @@ public class Tournament {
     private int year;
     private String description;
 
-    @ManyToOne
+    @ManyToMany
     private List<Team> teams;
 
-    @OneToMany
+    @OneToMany(mappedBy = "tournament")
     private List<Match> matches;
 
     public Long getId() {
