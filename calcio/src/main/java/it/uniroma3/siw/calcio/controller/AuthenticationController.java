@@ -12,6 +12,9 @@ import it.uniroma3.siw.calcio.model.User;
 import it.uniroma3.siw.calcio.service.CredentialsService;
 import jakarta.validation.Valid;
 
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+
 @Controller
 public class AuthenticationController {
 	
@@ -36,6 +39,16 @@ public class AuthenticationController {
 	@GetMapping(value = "/admin/index")
 	public String index() {
 		return "admin/index";
+	}
+
+	@GetMapping(value = "/success")
+	public String defaultAfterLogin() {
+		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+		if (credentials.getRole().equals(Credentials.ADMIN_ROLE)) {
+			return "admin/index";
+		}
+		return "redirect:/";
 	}
 		
 	@PostMapping(value = { "/register" })
