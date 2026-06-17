@@ -30,3 +30,10 @@ insert into credentials (id, username, password, role, user_id) values(nextval('
 
 insert into credentials (id, username, password, role, user_id) values(nextval('credentials_seq'), 'mario', '$2a$10$yWAIDyuEr78BBBFZ5cYh8.Nw4gUHFTRG5FwaWqNCGeOD8M4mh3.xy', 'DEFAULT', (select id from users where username = 'mario'));
 insert into credentials (id, username, password, role, user_id) values(nextval('credentials_seq'), 'luigi', '$2a$10$yWAIDyuEr78BBBFZ5cYh8.Nw4gUHFTRG5FwaWqNCGeOD8M4mh3.xy', 'DEFAULT', (select id from users where username = 'luigi'));
+
+insert into tournament_teams (tournaments_id, teams_id) values((select id from tournament where name = 'Serie A' and year = 2025), (select id from team where name = 'Roma'));
+insert into tournament_teams (tournaments_id, teams_id) values((select id from tournament where name = 'Serie A' and year = 2025), (select id from team where name = 'Lazio'));
+insert into tournament_teams (tournaments_id, teams_id) values((select id from tournament where name = 'Serie A' and year = 2025), (select id from team where name = 'Juventus'));
+insert into tournament_teams (tournaments_id, teams_id) values((select id from tournament where name = 'Serie A' and year = 2025), (select id from team where name = 'Milan'));
+insert into tournament_teams (tournaments_id, teams_id) values((select id from tournament where name = 'Coppa Italia' and year = 2025), (select id from team where name = 'Inter'));
+insert into tournament_teams (tournaments_id, teams_id) values((select id from tournament where name = 'Coppa Italia' and year = 2025), (select id from team where name = 'Roma'));

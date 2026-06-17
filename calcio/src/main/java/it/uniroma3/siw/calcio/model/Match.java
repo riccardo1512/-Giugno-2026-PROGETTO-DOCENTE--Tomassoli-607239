@@ -10,6 +10,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.EnumType;
 
 @Entity
 public class Match {
@@ -22,6 +24,7 @@ public class Match {
     private LocalTime time;
     //goalsHome
     //goalsAway
+    @Enumerated(EnumType.STRING)
     private MatchState state;
 
     @ManyToOne

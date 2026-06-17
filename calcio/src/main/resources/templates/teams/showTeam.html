@@ -30,7 +30,9 @@
 		<div>
 			<strong>Giocatori:</strong>
 			<ul th:if="${not #lists.isEmpty(team.players)}">
-				<li th:each="player : ${team.players}" th:text="${player.name} + ' ' + ${player.surname}">Nome Cognome</li>
+				<li th:each="player : ${team.players}">
+					<a th:href="@{'/players' + '/' + ${player.id}}" th:text="${player.name} + ' ' + ${player.surname}">Nome Cognome</a>
+				</li>
 			</ul>
 			<span th:if="${#lists.isEmpty(team.players)}">Nessun player specificato</span>
 		</div>
