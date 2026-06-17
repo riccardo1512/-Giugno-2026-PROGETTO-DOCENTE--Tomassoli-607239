@@ -22,8 +22,8 @@ public class Match {
 
     private LocalDate date;
     private LocalTime time;
-    //goalsHome
-    //goalsAway
+    private Integer goalsHome;
+    private Integer goalsAway;
     @Enumerated(EnumType.STRING)
     private MatchState state;
 
@@ -72,6 +72,22 @@ public class Match {
 
     public void setTime(LocalTime time) {
         this.time = time;
+    }
+
+    public Integer getGoalsHome() {
+        return goalsHome;
+    }
+
+    public void setGoalsHome(Integer goalsHome) {
+        this.goalsHome = goalsHome;
+    }
+
+    public Integer getGoalsAway() {
+        return goalsAway;
+    }
+
+    public void setGoalsAway(Integer goalsAway) {
+        this.goalsAway = goalsAway;
     }
 
     public MatchState getState() {

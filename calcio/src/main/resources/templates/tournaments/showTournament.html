@@ -28,13 +28,55 @@
 		</div>
 
 		<div>
-			<strong>Partite in Programma:</strong>
-			<ul th:if="${not #lists.isEmpty(tournament.matches)}">
-				<li th:each="match : ${tournament.matches}">
-					<a th:href="@{'/matches' + '/' + ${match.id}}" th:text="${match.teamHome.name} + ' vs ' + ${match.teamAway.name}">Roma vs Lazio</a>
+			<strong>Partite Già Effettuate:</strong>
+			<ul th:if="${not #lists.isEmpty(playedMatches)}">
+				<li th:each="match : ${playedMatches}">
+					<a th:href="@{'/matches' + '/' + ${match.id}}" th:text="${match.teamHome.name} + ' ' + ${match.goalsHome} + ' - ' + ${match.goalsAway} + ' ' + ${match.teamAway.name}">Roma 3 - 1 Lazio</a>
+					<span th:text="' (' + ${match.date} + ')'"></span>
 				</li>
 			</ul>
-			<span th:if="${#lists.isEmpty(tournament.matches)}">Nessuna partita programmata.</span>
+			<span th:if="${#lists.isEmpty(playedMatches)}">Nessuna partita effettuata.</span>
+		</div>
+
+		<div>
+			<strong>Partite da Effettuare:</strong>
+			<ul th:if="${not #lists.isEmpty(scheduledMatches)}">
+				<li th:each="match : ${scheduledMatches}">
+					<a th:href="@{'/matches' + '/' + ${match.id}}" th:text="${match.teamHome.name} + ' vs ' + ${match.teamAway.name}">Roma vs Lazio</a>
+					<span th:text="' (' + ${match.date} + ')'"></span>
+				</li>
+			</ul>
+			<span th:if="${#lists.isEmpty(scheduledMatches)}">Nessuna partita da effettuare.</span>
+		</div>
+
+		<div>
+			<strong>Classifica (Gol Fatti):</strong>
+			<table border="1" th:if="${not #lists.isEmpty(ranking)}">
+				<thead>
+					<tr>
+						<th>Squadra</th>
+						<th>Gol Fatti</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="row : ${ranking}">
+						<td>
+							<a th:href="@{'/teams' + '/' + ${row.teamId}}" th:text="${row.teamName}">Nome</a>
+						</td>
+						<td th:text="${row.goalsFor}">0</td>
+					</tr>
+				</tbody>
+			</table>
+			<span th:if="${#lists.isEmpty(ranking)}">Nessuna classifica disponibile.</span>
+		</div>
+
+		<div th:if="${userDetails != null}">
+			<hr>
+			<h3>Amministrazione</h3>
+			<a th:href="@{'/admin/tournaments/' + ${tournament.id} + '/edit'}">Modifica Torneo</a>
+			<form th:action="@{'/admin/tournaments/' + ${tournament.id} + '/delete'}" method="POST" style="display:inline;">
+				<button type="submit" onclick="return confirm('Sei sicuro di voler eliminare questo torneo?')">Elimina Torneo</button>
+			</form>
 		</div>
 
 	</div>

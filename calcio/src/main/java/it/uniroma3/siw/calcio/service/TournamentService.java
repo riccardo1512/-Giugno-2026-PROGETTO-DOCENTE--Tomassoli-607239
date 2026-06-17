@@ -42,4 +42,9 @@ public class TournamentService {
     public void deleteById(Long id) {
         tournamentRepository.deleteById(id);
     }
+
+    @Transactional(readOnly = true)
+    public List<it.uniroma3.siw.calcio.model.RankingRow> getTournamentRanking(Long tournamentId) {
+        return tournamentRepository.calculateTournamentRanking(tournamentId);
+    }
 }

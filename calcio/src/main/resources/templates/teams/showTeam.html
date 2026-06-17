@@ -40,20 +40,41 @@
 		<div>
 			<strong>Partite in casa:</strong>
 			<ul th:if="${not #lists.isEmpty(team.matchesHome)}">
-				<li th:each="matchH : ${team.matchesHome}" th:text="${matchH}">Match in casa</li>
+				<li th:each="match : ${team.matchesHome}">
+					<a th:href="@{'/matches/' + ${match.id}}">
+						<span th:if="${match.state.name() != 'PLAYED'}" th:text="${match.teamHome.name} + ' vs ' + ${match.teamAway.name}">Roma vs Lazio</span>
+						<span th:if="${match.state.name() == 'PLAYED'}" th:text="${match.teamHome.name} + ' ' + ${match.goalsHome} + ' - ' + ${match.goalsAway} + ' ' + ${match.teamAway.name}">Roma 3 - 1 Lazio</span>
+					</a>
+					<span th:text="' (' + ${match.date} + ')'"></span>
+				</li>
 			</ul>
-			<span th:if="${#lists.isEmpty(team.matchesHome)}">Nessun match in casa specificato</span>
+			<span th:if="${#lists.isEmpty(team.matchesHome)}">Nessuna partita in casa.</span>
 		</div>
 
 		<div>
 			<strong>Partite fuori casa:</strong>
 			<ul th:if="${not #lists.isEmpty(team.matchesAway)}">
-				<li th:each="matchA : ${team.matchesAway}" th:text="${matchA}">Match fuori casa</li>
+				<li th:each="match : ${team.matchesAway}">
+					<a th:href="@{'/matches/' + ${match.id}}">
+						<span th:if="${match.state.name() != 'PLAYED'}" th:text="${match.teamHome.name} + ' vs ' + ${match.teamAway.name}">Roma vs Lazio</span>
+						<span th:if="${match.state.name() == 'PLAYED'}" th:text="${match.teamHome.name} + ' ' + ${match.goalsHome} + ' - ' + ${match.goalsAway} + ' ' + ${match.teamAway.name}">Roma 3 - 1 Lazio</span>
+					</a>
+					<span th:text="' (' + ${match.date} + ')'"></span>
+				</li>
 			</ul>
-			<span th:if="${#lists.isEmpty(team.matchesAway)}">Nessun fuori casa specificato</span>
+			<span th:if="${#lists.isEmpty(team.matchesAway)}">Nessuna partita fuori casa.</span>
 		</div>
 
 
+		
+		<div th:if="${userDetails != null}">
+			<hr>
+			<h3>Amministrazione</h3>
+			<a th:href="@{'/admin/teams/' + ${team.id} + '/edit'}">Modifica Squadra</a>
+			<form th:action="@{'/admin/teams/' + ${team.id} + '/delete'}" method="POST" style="display:inline;">
+				<button type="submit" onclick="return confirm('Sei sicuro di voler eliminare questa squadra?')">Elimina Squadra</button>
+			</form>
+		</div>
 		
 	</div>
 	

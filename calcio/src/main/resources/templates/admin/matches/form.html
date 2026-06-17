@@ -15,16 +15,57 @@
     </header>
     <h1>Aggiungi Partita</h1>
     <form th:action="@{/admin/matches}" method="POST" th:object="${match}">
+        <input type="hidden" th:field="*{id}" />
         <div th:if="${#fields.hasGlobalErrors()}">
             <p th:each="err : ${#fields.globalErrors()}" th:text="${err}" style="color:red">...</p>
         </div>
         <div>
-            <label>Data:</label> <input type="date" th:field="${match.date}" />
+            <label>Data:</label> <input type="date" th:field="${match.date}" required/>
             <span th:if="${#fields.hasErrors('date')}" th:errors="*{date}"></span>
         </div>
         <div>
-            <label>Ora:</label> <input type="time" th:field="${match.time}" />
+            <label>Ora:</label> <input type="time" th:field="${match.time}" required/>
             <span th:if="${#fields.hasErrors('time')}" th:errors="*{time}"></span>
+        </div>
+        <div>
+            <label>Torneo:</label>
+            <select th:field="*{tournament}" required>
+                <option value="">Seleziona Torneo</option>
+                <option th:each="t : ${tournaments}" th:value="${t.id}" th:text="${t.name} + ' (' + ${t.year} + ')'"></option>
+            </select>
+        </div>
+        <div>
+            <label>Squadra Casa:</label>
+            <select th:field="*{teamHome}" required>
+                <option value="">Seleziona Squadra</option>
+                <option th:each="t : ${teams}" th:value="${t.id}" th:text="${t.name}"></option>
+            </select>
+        </div>
+        <div>
+            <label>Squadra Ospite:</label>
+            <select th:field="*{teamAway}" required>
+                <option value="">Seleziona Squadra</option>
+                <option th:each="t : ${teams}" th:value="${t.id}" th:text="${t.name}"></option>
+            </select>
+        </div>
+        <div>
+            <label>Arbitro:</label>
+            <select th:field="*{referee}">
+                <option value="">Nessun Arbitro</option>
+                <option th:each="r : ${referees}" th:value="${r.id}" th:text="${r.name} + ' ' + ${r.surname}"></option>
+            </select>
+        </div>
+        <div>
+            <label>Stato:</label>
+            <select th:field="*{state}" required>
+                <option th:each="s : ${states}" th:value="${s.name()}" th:text="${s.name()}"></option>
+            </select>
+        </div>
+        <div>
+            <label>Gol Casa:</label> <input type="number" th:field="${match.goalsHome}" />
+        </div>
+        <div>
+            <label>Gol Ospite:</label> <input type="number" th:field="${match.goalsAway}" />
         </div>
         <div><button type="submit">Salva</button></div>
     </form>

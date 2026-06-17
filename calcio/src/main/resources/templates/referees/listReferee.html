@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Elenco Arbitri</title>
+	<link rel="stylesheet" href="/css/stile.css" />
+</head>
+
+<body>
+	<div><a href="/"><img src="/images/logo-siw.png" width="50%" /></a></div>
+	<h1>Elenco Arbitri</h1>
+	
+	<div th:if="${not #lists.isEmpty(referees)}">
+		<ul>
+			<li th:each="referee : ${referees}">
+				<a th:href="@{'/referees' + '/' + ${referee.id}}" th:text="${referee.name} + ' ' + ${referee.surname} + ' (' + ${referee.refereeCode} + ')'">Nome Arbitro</a>
+			</li>
+		</ul>
+	</div>
+	
+	<div th:if="${#lists.isEmpty(referees)}">
+		Nessun arbitro registrato nel sistema.
+	</div>
+	
+	<div sec:authorize="hasAuthority('ADMIN')">
+		<br>
+		<a href="/admin/referees/new">Aggiungi nuovo arbitro</a>
+	</div>
+</body>
+
+</html>

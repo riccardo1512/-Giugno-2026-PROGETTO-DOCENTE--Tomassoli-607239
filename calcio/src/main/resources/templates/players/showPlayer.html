@@ -29,6 +29,15 @@
 			<span th:unless="${player.team}">Svincolato</span>
 		</div>
 
+		<div th:if="${userDetails != null}">
+			<hr>
+			<h3>Amministrazione</h3>
+			<a th:href="@{'/admin/players/' + ${player.id} + '/edit'}">Modifica Giocatore</a>
+			<form th:action="@{'/admin/players/' + ${player.id} + '/delete'}" method="POST" style="display:inline;">
+				<button type="submit" onclick="return confirm('Sei sicuro di voler eliminare questo giocatore?')">Elimina Giocatore</button>
+			</form>
+		</div>
+
 	</div>
 	
 	<div th:unless="${player}">Il giocatore richiesto non esiste.</div>

@@ -9,14 +9,26 @@ import org.springframework.transaction.annotation.Transactional;
 import it.uniroma3.siw.calcio.exception.DuplicateTeamException;
 import it.uniroma3.siw.calcio.model.Team;
 import it.uniroma3.siw.calcio.repository.TeamRepository;
+import it.uniroma3.siw.calcio.repository.MatchRepository;
+import it.uniroma3.siw.calcio.repository.PlayerRepository;
+import it.uniroma3.siw.calcio.repository.TournamentRepository;
+import it.uniroma3.siw.calcio.model.Match;
+import it.uniroma3.siw.calcio.model.Player;
+import it.uniroma3.siw.calcio.model.Tournament;
 
 @Service
 public class TeamService {
 
    private final TeamRepository teamRepository;
+   private final MatchRepository matchRepository;
+   private final PlayerRepository playerRepository;
+   private final TournamentRepository tournamentRepository;
 
-    public TeamService(TeamRepository teamRepository) {
+    public TeamService(TeamRepository teamRepository, MatchRepository matchRepository, PlayerRepository playerRepository, TournamentRepository tournamentRepository) {
         this.teamRepository = teamRepository;
+        this.matchRepository = matchRepository;
+        this.playerRepository = playerRepository;
+        this.tournamentRepository = tournamentRepository;
     }
 
     public List<Team> findAll() {
@@ -48,6 +60,30 @@ public class TeamService {
 
     @Transactional
     public void deleteById(Long id) {
-        this.teamRepository.deleteById(id);
+        Optional<Team> teamOpt = this.teamRepository.findById(id);
+        if (teamOpt.isPresent()) {
+            Team team = teamOpt.get();
+            
+            // 1. Rimuovi la squadra dai tornei
+            for (Tournament t : team.getTournaments()) {
+                t.getTeams().remove(team);
+                tournamentRepository.save(t);
+            }
+            
+            // 2. Svinciliamo (o eliminiamo) i giocatori
+            for (Player p : team.getPlayers()) {
+                p.setTeam(null);
+                playerRepository.save(p);
+            }
+            
+            // 3. Eliminiamo tutte le partite giocate da questa squadra
+            List<Match> matchesH = matchRepository.findByTeamHome(team);
+            matchRepository.deleteAll(matchesH);
+            List<Match> matchesA = matchRepository.findByTeamAway(team);
+            matchRepository.deleteAll(matchesA);
+
+            // 4. Infine eliminiamo la squadra
+            this.teamRepository.delete(team);
+        }
     }
 }

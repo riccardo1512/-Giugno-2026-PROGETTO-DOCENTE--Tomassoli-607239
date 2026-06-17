@@ -15,6 +15,7 @@
     </header>
     <h1>Aggiungi Squadra</h1>
     <form th:action="@{/admin/teams}" method="POST" th:object="${team}">
+        <input type="hidden" th:field="*{id}" />
         <div th:if="${#fields.hasGlobalErrors()}">
             <p th:each="err : ${#fields.globalErrors()}" th:text="${err}" style="color:red">...</p>
         </div>

@@ -15,6 +15,7 @@
     </header>
     <h1>Aggiungi Torneo</h1>
     <form th:action="@{/admin/tournaments}" method="POST" th:object="${tournament}">
+        <input type="hidden" th:field="*{id}" />
         <div th:if="${#fields.hasGlobalErrors()}">
             <p th:each="err : ${#fields.globalErrors()}" th:text="${err}" style="color:red">...</p>
         </div>
@@ -29,6 +30,13 @@
         <div>
             <label>Descrizione:</label> <textarea th:field="${tournament.description}"></textarea>
             <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span>
+        </div>
+        <div>
+            <label>Squadre Iscritte:</label>
+            <select multiple="multiple" th:field="*{teams}">
+                <option th:each="t : ${teams}" th:value="${t.id}" th:text="${t.name} + ' (' + ${t.city} + ')'">Squadra</option>
+            </select>
+            <small>(Tieni premuto CTRL o CMD per selezionare più squadre)</small>
         </div>
         <div><button type="submit">Salva</button></div>
     </form>

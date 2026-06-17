@@ -15,6 +15,7 @@
     </header>
     <h1>Aggiungi Giocatore</h1>
     <form th:action="@{/admin/players}" method="POST" th:object="${player}">
+        <input type="hidden" th:field="*{id}" />
         <div th:if="${#fields.hasGlobalErrors()}">
             <p th:each="err : ${#fields.globalErrors()}" th:text="${err}" style="color:red">...</p>
         </div>
@@ -37,6 +38,13 @@
         <div>
             <label>Altezza (cm):</label> <input type="number" th:field="${player.height}" />
             <span th:if="${#fields.hasErrors('height')}" th:errors="*{height}"></span>
+        </div>
+        <div>
+            <label>Squadra:</label>
+            <select th:field="*{team}">
+                <option value="">Nessuna squadra</option>
+                <option th:each="t : ${teams}" th:value="${t.id}" th:text="${t.name} + ' (' + ${t.city} + ')'">Squadra</option>
+            </select>
         </div>
         <div><button type="submit">Salva</button></div>
     </form>
