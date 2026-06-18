@@ -33,26 +33,31 @@ public class CommentController {
         this.credentialsService = credentialsService;
     }
 
-    @PostMapping("/user/matches/{id}/comment")
-    public String addComment(@PathVariable Long id, @Valid @ModelAttribute("newComment") Comment comment, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return "redirect:/matches/" + id;
-        }
-
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof UserDetails) {
-            UserDetails userDetails = (UserDetails) principal;
-            Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
-            
-            Optional<Match> matchOpt = matchService.findById(id);
-            if (matchOpt.isPresent()) {
-                comment.setAuthor(credentials.getUser());
-                comment.setMatch(matchOpt.get());
-                commentService.save(comment);
+    @PostMapping("/user/matches/{matchId}/comment")
+    public String addComment(@PathVariable("matchId") Long matchId, @Valid @ModelAttribute("newComment") Comment comment, BindingResult bindingResult) {
+        try {
+            if (bindingResult.hasErrors()) {
+                return "redirect:/matches/" + matchId;
             }
+
+            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if (principal instanceof UserDetails) {
+                UserDetails userDetails = (UserDetails) principal;
+                Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+                
+                Optional<Match> matchOpt = matchService.findById(matchId);
+                if (matchOpt.isPresent()) {
+                    comment.setAuthor(credentials.getUser());
+                    comment.setMatch(matchOpt.get());
+                    commentService.save(comment);
+                }
+            }
+            
+            return "redirect:/matches/" + matchId;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
         }
-        
-        return "redirect:/matches/" + id;
     }
 
     @GetMapping("/user/comments/{id}/edit")
@@ -92,6 +97,27 @@ public class CommentController {
                 if (existingComment.getAuthor().getId().equals(credentials.getUser().getId())) {
                     existingComment.setText(updatedComment.getText());
                     commentService.save(existingComment);
+                }
+            }
+            return "redirect:/matches/" + existingComment.getMatch().getId();
+        }
+        return "redirect:/";
+    }
+
+    @PostMapping("/user/comments/{id}/delete")
+    public String deleteComment(@PathVariable Long id) {
+        Optional<Comment> commentOpt = commentService.findById(id);
+        if (commentOpt.isPresent()) {
+            Comment existingComment = commentOpt.get();
+            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if (principal instanceof UserDetails) {
+                UserDetails userDetails = (UserDetails) principal;
+                Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+                
+                if (credentials.getRole().equals("ADMIN") || existingComment.getAuthor().getId().equals(credentials.getUser().getId())) {
+                    Long matchId = existingComment.getMatch().getId();
+                    commentService.delete(existingComment);
+                    return "redirect:/matches/" + matchId;
                 }
             }
             return "redirect:/matches/" + existingComment.getMatch().getId();

@@ -51,8 +51,11 @@
 				<strong th:text="${c.author.name} + ' ' + ${c.author.surname}">Utente</strong>: 
 				<span th:text="${c.text}">Testo commento</span>
 				
-				<div th:if="${userDetails != null and userDetails.username == c.author.username}" style="margin-top: 5px;">
-					<a th:href="@{'/user/comments/' + ${c.id} + '/edit'}" style="font-size: 0.9em; color: blue;">Modifica il tuo commento</a>
+				<div th:if="${userDetails != null and (userDetails.username == c.author.username or userDetails.authorities[0].authority == 'ADMIN')}" style="margin-top: 5px;">
+					<a th:if="${userDetails.username == c.author.username}" th:href="@{'/user/comments/' + ${c.id} + '/edit'}" style="font-size: 0.9em; color: blue; margin-right: 10px;">Modifica</a>
+					<form th:action="@{'/user/comments/' + ${c.id} + '/delete'}" method="POST" style="display:inline;">
+						<button type="submit" style="font-size: 0.9em; color: red; border: none; background: none; cursor: pointer; padding: 0; text-decoration: underline;">Elimina</button>
+					</form>
 				</div>
 			</div>
 		</div>

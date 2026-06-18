@@ -18,6 +18,7 @@ public class CommentService {
         this.commentRepository = commentRepository;
     }
 
+    @Transactional
     public List<Comment> findByMatch(Match match) {
         return commentRepository.findByMatch(match);
     }
