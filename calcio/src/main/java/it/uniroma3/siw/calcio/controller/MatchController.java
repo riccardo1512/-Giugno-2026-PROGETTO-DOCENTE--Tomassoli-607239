@@ -14,6 +14,8 @@ import it.uniroma3.siw.calcio.service.MatchService;
 import it.uniroma3.siw.calcio.service.RefereeService;
 import it.uniroma3.siw.calcio.service.TeamService;
 import it.uniroma3.siw.calcio.service.TournamentService;
+import it.uniroma3.siw.calcio.service.CommentService;
+import it.uniroma3.siw.calcio.model.Comment;
 import jakarta.validation.Valid;
 
 @Controller
@@ -22,12 +24,14 @@ public class MatchController {
     private final TournamentService tournamentService;
     private final TeamService teamService;
     private final RefereeService refereeService;
+    private final CommentService commentService;
 
-    public MatchController(MatchService matchService, TournamentService tournamentService, TeamService teamService, RefereeService refereeService) {
+    public MatchController(MatchService matchService, TournamentService tournamentService, TeamService teamService, RefereeService refereeService, CommentService commentService) {
         this.matchService = matchService;
         this.tournamentService = tournamentService;
         this.teamService = teamService;
         this.refereeService = refereeService;
+        this.commentService = commentService;
     }
 
     @GetMapping("/matches")
@@ -38,7 +42,12 @@ public class MatchController {
 
     @GetMapping("/matches/{id}")
     public String show(@PathVariable Long id, Model model) {
-        model.addAttribute("match", matchService.findById(id).orElse(null));
+        Match match = matchService.findById(id).orElse(null);
+        model.addAttribute("match", match);
+        if (match != null) {
+            model.addAttribute("comments", commentService.findByMatch(match));
+            model.addAttribute("newComment", new Comment());
+        }
         return "matches/showMatch";
     }
 

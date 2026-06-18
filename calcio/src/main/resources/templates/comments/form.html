@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Modifica Commento</title>
+    <link rel="stylesheet" href="/css/stile.css" />
+</head>
+<body>
+    <header>
+		<div th:if="${userDetails}">
+			<span th:text="${userDetails.username}"></span>
+			<form th:action="@{/logout}" method="POST" style="display:inline;">
+				<button type="submit">Logout</button>
+			</form>
+		</div>
+    </header>
+    
+    <h1>Modifica Commento</h1>
+    
+    <div th:if="${comment != null}">
+        <form th:action="@{'/user/comments/' + ${comment.id} + '/edit'}" method="POST" th:object="${comment}">
+            <input type="hidden" th:field="*{id}" />
+            
+            <div th:if="${#fields.hasGlobalErrors()}">
+                <p th:each="err : ${#fields.globalErrors()}" th:text="${err}" style="color:red">...</p>
+            </div>
+            
+            <div>
+                <label>Testo del commento:</label>
+                <textarea th:field="*{text}" required rows="5" cols="60"></textarea>
+                <span th:if="${#fields.hasErrors('text')}" th:errors="*{text}"></span>
+            </div>
+            
+            <div style="margin-top: 15px;">
+                <button type="submit">Salva Modifiche</button>
+                <a th:href="@{'/matches/' + ${comment.match.id}}" style="margin-left: 10px;">Annulla</a>
+            </div>
+        </form>
+    </div>
+
+    <div th:unless="${comment}">Il commento non esiste o non sei autorizzato a modificarlo.</div>
+</body>
+</html>

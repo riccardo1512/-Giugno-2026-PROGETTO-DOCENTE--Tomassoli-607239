@@ -5,6 +5,14 @@
 	<link rel="stylesheet" href="/css/stile.css" />
 </head>
 <body>
+    <header>
+		<div th:if="${userDetails}">
+			<span th:text="${userDetails.username}"></span>
+			<form th:action="@{/logout}" method="POST" style="display:inline;">
+				<button type="submit">Logout</button>
+			</form>
+		</div>
+    </header>
 	<div><a href="/"><img src="/images/logo-siw.png" width="50%" /></a></div>
 	<h1>Partite</h1>
 	<div th:if="${matches==null || matches.isEmpty()}">Non ci sono partite nel sistema</div>
