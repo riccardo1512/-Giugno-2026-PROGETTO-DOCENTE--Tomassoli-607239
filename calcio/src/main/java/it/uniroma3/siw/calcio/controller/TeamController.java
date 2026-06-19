@@ -20,17 +20,20 @@ import it.uniroma3.siw.calcio.model.Team;
 import it.uniroma3.siw.calcio.model.Player;
 import it.uniroma3.siw.calcio.service.TeamService;
 import it.uniroma3.siw.calcio.service.PlayerService;
+import it.uniroma3.siw.calcio.validation.TeamValidator;
 import jakarta.validation.Valid;
 
 @Controller
 public class TeamController {
     private final TeamService teamService;
     private final PlayerService playerService;
+    private final TeamValidator teamValidator;
     private static final Logger logger = LoggerFactory.getLogger(TeamController.class);
 
-    public TeamController(TeamService teamService, PlayerService playerService) {
+    public TeamController(TeamService teamService, PlayerService playerService, TeamValidator teamValidator) {
         this.teamService = teamService;
         this.playerService = playerService;
+        this.teamValidator = teamValidator;
     }
 
     @GetMapping("/teams")
@@ -87,19 +90,16 @@ public class TeamController {
             return "admin/teams/form";
         }
 
+        this.teamValidator.validate(team, bindingResult);
+
         if (bindingResult.hasErrors()) {
             model.addAttribute("teams", teamService.findAll());
+            model.addAttribute("players", playerService.findAll());
             return "admin/teams/form";
         }
 
-        try {
-            teamService.save(team);
-            return "redirect:/teams";
-        } catch (DuplicateTeamException e) {
-            model.addAttribute("players", playerService.findAll());
-            bindingResult.reject("team.duplicate", "Esiste già una squadra con questo nome");
-            return "admin/teams/form";
-        }
+        teamService.save(team);
+        return "redirect:/teams";
     }
 
     @GetMapping("/admin/teams/{id}/edit")

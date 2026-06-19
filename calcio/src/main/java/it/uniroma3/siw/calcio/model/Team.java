@@ -8,6 +8,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotBlank;
+import it.uniroma3.siw.calcio.validation.NotFutureYear;
 
 @Entity
 public class Team {
@@ -16,8 +18,13 @@ public class Team {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotBlank
     private String name;
+    
+    @NotFutureYear
     private int yearOfFoundation;
+
+    @NotBlank
     private String city;
 
     @ManyToMany(mappedBy = "teams")
