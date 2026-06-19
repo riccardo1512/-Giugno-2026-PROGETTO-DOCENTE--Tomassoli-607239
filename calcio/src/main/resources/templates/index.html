@@ -14,6 +14,9 @@
 				<button type="submit">Logout</button>
 			</form>
 		</div>
+		<div th:unless="${userDetails}">
+			<a href="/login">Accedi</a> | <a href="/register">Registrati</a>
+		</div>
     </header>
 	
 	<div><img src="/images/logo-siw.png" width="50%" /></div>
@@ -35,10 +38,5 @@
 		<a href="/referees">Arbitri</a>
 	</div>
 
-	
-	<h2>Gestisci (riservato agli amministratori)</h2>
-	<div>	
-		<a href="/admin/index">Inserimenti e cancellazioni</a>
-	</div>			
 </body>
 </html>

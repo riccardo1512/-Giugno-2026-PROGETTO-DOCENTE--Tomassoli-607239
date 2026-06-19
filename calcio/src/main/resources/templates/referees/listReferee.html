@@ -17,6 +17,9 @@
     </header>
 	<div><a href="/"><img src="/images/logo-siw.png" width="50%" /></a></div>
 	<h1>Elenco Arbitri</h1>
+	<div th:if="${userDetails != null and userDetails.authorities[0].authority == 'ADMIN'}" style="margin-bottom: 20px;">
+		<a href="/admin/referees/new" style="background-color: #4CAF50; color: white; padding: 10px 15px; text-decoration: none; border-radius: 4px;">Aggiungi Arbitro</a>
+	</div>
 	
 	<div th:if="${not #lists.isEmpty(referees)}">
 		<ul>
@@ -30,10 +33,6 @@
 		Nessun arbitro registrato nel sistema.
 	</div>
 	
-	<div sec:authorize="hasAuthority('ADMIN')">
-		<br>
-		<a href="/admin/referees/new">Aggiungi nuovo arbitro</a>
-	</div>
 </body>
 
 </html>

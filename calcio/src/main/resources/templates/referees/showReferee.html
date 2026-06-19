@@ -23,6 +23,15 @@
 		<p><strong>Cognome:</strong> <span th:text="${referee.surname}">Cognome</span></p>
 		<p><strong>Codice Arbitrale:</strong> <span th:text="${referee.refereeCode}">Codice</span></p>
 	</div>
+
+	<div th:if="${userDetails != null and userDetails.authorities[0].authority == 'ADMIN' and referee != null}">
+		<hr>
+		<h3>Amministrazione</h3>
+		<a th:href="@{'/admin/referees/' + ${referee.id} + '/edit'}">Modifica Arbitro</a>
+		<form th:action="@{'/admin/referees/' + ${referee.id} + '/delete'}" method="POST" style="display:inline;">
+			<button type="submit" onclick="return confirm('Sei sicuro di voler eliminare questo arbitro?')">Elimina Arbitro</button>
+		</form>
+	</div>
 	
 	<div th:unless="${referee}">
 		L'arbitro richiesto non esiste.

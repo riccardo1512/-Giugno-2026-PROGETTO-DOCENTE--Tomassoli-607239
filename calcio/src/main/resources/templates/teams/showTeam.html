@@ -75,7 +75,7 @@
 
 
 		
-		<div th:if="${userDetails != null}">
+		<div th:if="${userDetails != null and userDetails.authorities[0].authority == 'ADMIN'}">
 			<hr>
 			<h3>Amministrazione</h3>
 			<a th:href="@{'/admin/teams/' + ${team.id} + '/edit'}">Modifica Squadra</a>

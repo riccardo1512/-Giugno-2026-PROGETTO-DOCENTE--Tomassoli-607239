@@ -37,7 +37,7 @@
 			<span th:unless="${player.team}">Svincolato</span>
 		</div>
 
-		<div th:if="${userDetails != null}">
+		<div th:if="${userDetails != null and userDetails.authorities[0].authority == 'ADMIN'}">
 			<hr>
 			<h3>Amministrazione</h3>
 			<a th:href="@{'/admin/players/' + ${player.id} + '/edit'}">Modifica Giocatore</a>
