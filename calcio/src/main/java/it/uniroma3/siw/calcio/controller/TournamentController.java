@@ -37,7 +37,7 @@ public class TournamentController {
 
     @GetMapping("/tournaments/{id}")
     public String show(@PathVariable Long id, Model model) {
-        Tournament tournament = tournamentService.findById(id).orElse(null);
+        Tournament tournament = tournamentService.findByIdWithMatches(id).orElse(null);
         if (tournament != null && tournament.getMatches() != null) {
             
             // Creiamo due liste vuote

@@ -6,6 +6,8 @@ import org.springframework.data.repository.CrudRepository;
 import it.uniroma3.siw.calcio.model.Tournament;
 
 import java.util.List;
+import java.util.Optional;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import it.uniroma3.siw.calcio.model.RankingRow;
@@ -25,4 +27,9 @@ public interface TournamentRepository extends JpaRepository<Tournament, Long>{
            "GROUP BY t.id, t.name " +
            "ORDER BY goalsFor DESC", nativeQuery = true)
     List<RankingRow> calculateTournamentRanking(@Param("tournamentId") Long tournamentId);
+
+    // EntityGraph per caricare eagerly le partite associate ed evitare query extra nell'HTML
+    @EntityGraph(attributePaths = {"matches"})
+    @Query("SELECT t FROM Tournament t WHERE t.id = :id")
+    Optional<Tournament> findByIdWithMatches(@Param("id") Long id);
 }

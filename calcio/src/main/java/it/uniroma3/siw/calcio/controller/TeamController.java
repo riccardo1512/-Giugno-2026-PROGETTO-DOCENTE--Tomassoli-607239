@@ -41,7 +41,7 @@ public class TeamController {
 
     @GetMapping("/teams/{id}")
     public String show(@PathVariable Long id, Model model) {
-        Optional<Team> optional = teamService.findById(id);
+        Optional<Team> optional = teamService.findByIdWithPlayers(id);
         if (optional.isEmpty()) {
             return "redirect:/teams";
         }

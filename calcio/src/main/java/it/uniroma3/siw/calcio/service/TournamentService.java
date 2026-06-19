@@ -33,6 +33,18 @@ public class TournamentService {
         return tournamentOpt;
     }
 
+    // Recupera il torneo ottimizzando il caricamento delle partite per la view
+    @Transactional(readOnly = true)
+    public Optional<Tournament> findByIdWithMatches(Long id) {
+        Optional<Tournament> tournamentOpt = this.tournamentRepository.findByIdWithMatches(id);
+        if (tournamentOpt.isPresent()) {
+            Tournament tournament = tournamentOpt.get();
+            if (tournament.getTeams() != null) tournament.getTeams().size();
+            if (tournament.getMatches() != null) tournament.getMatches().size();
+        }
+        return tournamentOpt;
+    }
+
     @Transactional(readOnly = true)
     public List<Tournament> findAll() {
         return (List<Tournament>) tournamentRepository.findAll();

@@ -30,6 +30,12 @@ public class MatchService {
         return matchRepository.findById(id);
     }
 
+    // Recupera la partita con tutte le entità collegate (squadre, arbitro) in una singola query
+    @Transactional(readOnly = true)
+    public Optional<Match> findByIdWithDetails(Long id) {
+        return matchRepository.findByIdWithDetails(id);
+    }
+
     @Transactional(readOnly = true)
     public List<Match> findAll() {
         return (List<Match>) matchRepository.findAll();
