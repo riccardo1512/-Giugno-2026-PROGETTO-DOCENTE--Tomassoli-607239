@@ -17,9 +17,6 @@
     </header>
 	<div><a href="/"><img src="/images/logo-siw.png" width="50%" /></a></div>
 	<h1>Tornei</h1>
-	<div th:if="${userDetails != null and userDetails.authorities[0].authority == 'ADMIN'}" style="margin-bottom: 20px;">
-		<a href="/admin/tournaments/new" style="background-color: #4CAF50; color: white; padding: 10px 15px; text-decoration: none; border-radius: 4px;">Aggiungi Torneo</a>
-	</div>
 	<div th:if="${tournaments==null || tournaments.isEmpty()}">Non ci sono tornei nel sistema</div>
 	<ul>
 		<li th:each="tournament : ${tournaments}">

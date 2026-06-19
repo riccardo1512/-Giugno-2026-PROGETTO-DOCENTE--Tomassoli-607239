@@ -15,9 +15,6 @@
     </header>
 	<div><a href="/"><img src="/images/logo-siw.png" width="50%" /></a></div>
 	<h1>Giocatori</h1>
-	<div th:if="${userDetails != null and userDetails.authorities[0].authority == 'ADMIN'}" style="margin-bottom: 20px;">
-		<a href="/admin/players/new" style="background-color: #4CAF50; color: white; padding: 10px 15px; text-decoration: none; border-radius: 4px;">Aggiungi Giocatore</a>
-	</div>
 	<div th:if="${players==null || players.isEmpty()}">Non ci sono giocatori nel sistema</div>
 	<ul>
 		<li th:each="player : ${players}">

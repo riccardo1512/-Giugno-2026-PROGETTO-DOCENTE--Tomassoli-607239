@@ -15,9 +15,6 @@
     </header>
 	<div><a href="/"><img src="/images/logo-siw.png" width="50%" /></a></div>
 	<h1>Partite</h1>
-	<div th:if="${userDetails != null and userDetails.authorities[0].authority == 'ADMIN'}" style="margin-bottom: 20px;">
-		<a href="/admin/matches/new" style="background-color: #4CAF50; color: white; padding: 10px 15px; text-decoration: none; border-radius: 4px;">Aggiungi Partita</a>
-	</div>
 	<div th:if="${matches==null || matches.isEmpty()}">Non ci sono partite nel sistema</div>
 	<ul>
 		<li th:each="match : ${matches}">

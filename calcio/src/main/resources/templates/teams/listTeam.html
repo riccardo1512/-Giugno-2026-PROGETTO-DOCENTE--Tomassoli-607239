@@ -17,9 +17,6 @@
     </header>
 	<div><a href="/"><img src="/images/logo-siw.png" width="50%" /></a></div>
 	<h1>Squadre</h1>
-	<div th:if="${userDetails != null and userDetails.authorities[0].authority == 'ADMIN'}" style="margin-bottom: 20px;">
-		<a href="/admin/teams/new" style="background-color: #4CAF50; color: white; padding: 10px 15px; text-decoration: none; border-radius: 4px;">Aggiungi Squadra</a>
-	</div>
 	<div th:if="${teams==null || teams.isEmpty()}">Non ci sono team nel sistema</div>
 	<ul>
 		<li th:each="team : ${teams}">
