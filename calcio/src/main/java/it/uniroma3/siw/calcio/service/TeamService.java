@@ -31,11 +31,12 @@ public class TeamService {
         this.tournamentRepository = tournamentRepository;
     }
 
+    @Transactional(readOnly = true)
     public List<Team> findAll() {
         return this.teamRepository.findAll();
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Optional<Team> findById(Long id) {
         Optional<Team> teamOpt = this.teamRepository.findById(id);
         if (teamOpt.isPresent()) {

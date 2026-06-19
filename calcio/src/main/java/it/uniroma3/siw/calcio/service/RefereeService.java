@@ -22,12 +22,12 @@ public class RefereeService {
         return refereeRepository.save(referee);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Optional<Referee> findById(Long id) {
         return refereeRepository.findById(id);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Referee> findAll() {
         return (List<Referee>) refereeRepository.findAll();
     }

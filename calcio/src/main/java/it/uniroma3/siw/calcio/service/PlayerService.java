@@ -19,10 +19,12 @@ public class PlayerService {
         this.playerRepository = playerRepository;
     }
 
+    @Transactional(readOnly = true)
     public List<Player> findAll() {
         return playerRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
     public Optional<Player> findById(Long id) {
         return playerRepository.findById(id);
     }

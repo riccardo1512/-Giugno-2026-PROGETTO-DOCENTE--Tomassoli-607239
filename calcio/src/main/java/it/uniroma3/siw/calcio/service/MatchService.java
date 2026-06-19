@@ -25,12 +25,12 @@ public class MatchService {
         return matchRepository.save(match);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Optional<Match> findById(Long id) {
         return matchRepository.findById(id);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Match> findAll() {
         return (List<Match>) matchRepository.findAll();
     }

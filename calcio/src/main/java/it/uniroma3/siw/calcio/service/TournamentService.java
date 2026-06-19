@@ -22,7 +22,7 @@ public class TournamentService {
         return tournamentRepository.save(tournament);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Optional<Tournament> findById(Long id) {
         Optional<Tournament> tournamentOpt = this.tournamentRepository.findById(id);
         if (tournamentOpt.isPresent()) {
@@ -33,7 +33,7 @@ public class TournamentService {
         return tournamentOpt;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Tournament> findAll() {
         return (List<Tournament>) tournamentRepository.findAll();
     }

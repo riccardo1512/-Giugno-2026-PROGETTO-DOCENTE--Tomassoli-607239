@@ -18,12 +18,12 @@ public class CommentService {
         this.commentRepository = commentRepository;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Comment> findByMatch(Match match) {
         return commentRepository.findByMatch(match);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Optional<Comment> findById(Long id) {
         return commentRepository.findById(id);
     }
