@@ -32,7 +32,13 @@
             <span th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}"></span>
         </div>
         <div>
-            <label>Ruolo:</label> <input type="text" th:field="${player.role}" />
+            <label>Ruolo:</label> 
+            <select th:field="${player.role}" required>
+                <option value="PORTIERE">Portiere</option>
+                <option value="DIFENSORE">Difensore</option>
+                <option value="CENTROCAMPISTA">Centrocampista</option>
+                <option value="ATTACCANTE">Attaccante</option>
+            </select>
             <span th:if="${#fields.hasErrors('role')}" th:errors="*{role}"></span>
         </div>
         <div>

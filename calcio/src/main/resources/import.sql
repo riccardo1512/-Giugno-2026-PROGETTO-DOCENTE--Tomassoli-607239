@@ -4,12 +4,12 @@ insert into team (id, name, year_of_foundation, city) values(nextval('team_seq')
 insert into team (id, name, year_of_foundation, city) values(nextval('team_seq'), 'Milan', 1899, 'Milano');
 insert into team (id, name, year_of_foundation, city) values(nextval('team_seq'), 'Inter', 1908, 'Milano');
 
-insert into player (id, name, surname, date_of_birth, role, height, team_id) values(nextval('player_seq'), 'Paolo', 'Rossi', '1990-09-23', 'Forward', 182, (select id from team where name = 'Juventus'));
-insert into player (id, name, surname, date_of_birth, role, height, team_id) values(nextval('player_seq'), 'Marco', 'Bianchi', '1995-02-12', 'Midfielder', 178, (select id from team where name = 'Roma'));
-insert into player (id, name, surname, date_of_birth, role, height, team_id) values(nextval('player_seq'), 'Luca', 'Verdi', '1998-07-04', 'Defender', 185, (select id from team where name = 'Inter'));
-insert into player (id, name, surname, date_of_birth, role, height, team_id) values(nextval('player_seq'), 'Andrea', 'Neri', '1992-11-15', 'Goalkeeper', 191, (select id from team where name = 'Milan'));
-insert into player (id, name, surname, date_of_birth, role, height, team_id) values(nextval('player_seq'), 'Davide', 'Conti', '1996-05-08', 'Forward', 180, (select id from team where name = 'Lazio'));
-insert into player (id, name, surname, date_of_birth, role, height, team_id) values(nextval('player_seq'), 'Giorgio', 'Serra', '1993-01-30', 'Defender', 187, (select id from team where name = 'Roma'));
+insert into player (id, name, surname, date_of_birth, role, height, team_id) values(nextval('player_seq'), 'Paolo', 'Rossi', '1990-09-23', 'ATTACCANTE', 182, (select id from team where name = 'Juventus'));
+insert into player (id, name, surname, date_of_birth, role, height, team_id) values(nextval('player_seq'), 'Marco', 'Bianchi', '1995-02-12', 'CENTROCAMPISTA', 178, (select id from team where name = 'Roma'));
+insert into player (id, name, surname, date_of_birth, role, height, team_id) values(nextval('player_seq'), 'Luca', 'Verdi', '1998-07-04', 'DIFENSORE', 185, (select id from team where name = 'Inter'));
+insert into player (id, name, surname, date_of_birth, role, height, team_id) values(nextval('player_seq'), 'Andrea', 'Neri', '1992-11-15', 'PORTIERE', 191, (select id from team where name = 'Milan'));
+insert into player (id, name, surname, date_of_birth, role, height, team_id) values(nextval('player_seq'), 'Davide', 'Conti', '1996-05-08', 'ATTACCANTE', 180, (select id from team where name = 'Lazio'));
+insert into player (id, name, surname, date_of_birth, role, height, team_id) values(nextval('player_seq'), 'Giorgio', 'Serra', '1993-01-30', 'DIFENSORE', 187, (select id from team where name = 'Roma'));
 
 insert into referee (id, name, surname, referee_code) values(nextval('referee_seq'), 'Daniele', 'Greco', 'R-1001');
 insert into referee (id, name, surname, referee_code) values(nextval('referee_seq'), 'Simone', 'Ferri', 'R-1002');

@@ -6,6 +6,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
@@ -19,7 +21,8 @@ public class Player {
     private String name;
     private String surname;
     private LocalDate dateOfBirth;
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private Role role;
     private int height; // in cm
 
 
@@ -67,12 +70,12 @@ public class Player {
     }
 
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 
