@@ -22,7 +22,7 @@
 	</header>
 
 	<div>
-		<a href="/"><img src="/images/logo-siw.png" width="50%"/></a>
+		<a href="/"><img src="/images/logo_calcio.png" width="50%"/></a>
 	</div>
 	<h1>Login</h1>
 	<form th:action="@{/login}" method="POST">
@@ -41,7 +41,16 @@
 				<span><button type="submit">Login</button></span>
 			</div>
 	</form>
-	<div>
+	
+	<div style="text-align: center; margin-top: 20px; max-width: 900px; margin-left: auto; margin-right: auto; padding-left: 20px; padding-right: 20px;">
+		<p style="margin-bottom: 10px; color: dimgray;">Oppure accedi tramite i provider esterni:</p>
+		<div style="display: flex; gap: 10px; justify-content: center;">
+			<a th:href="@{/oauth2/authorization/google}" style="background-color: #db4437; color: white; padding: 10px 20px; border-radius: 4px; font-weight: bold; text-decoration: none;">Accedi con Google</a>
+			<a th:href="@{/oauth2/authorization/github}" style="background-color: #333333; color: white; padding: 10px 20px; border-radius: 4px; font-weight: bold; text-decoration: none;">Accedi con GitHub</a>
+		</div>
+	</div>
+
+	<div style="text-align: center; margin-top: 30px;">
 		<a th:href="@{/register}" th:text="Registrati">Registrati</a>
 	</div>
 </body>

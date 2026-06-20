@@ -17,6 +17,8 @@ import static it.uniroma3.siw.calcio.model.Credentials.ADMIN_ROLE;
 
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
@@ -43,12 +45,12 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    protected SecurityFilterChain configure(final HttpSecurity httpSecurity) throws Exception {
+    protected SecurityFilterChain configure(final HttpSecurity httpSecurity, CustomOAuth2UserService customOAuth2UserService) throws Exception {
 
         httpSecurity.authorizeHttpRequests(authorize -> {
             authorize.requestMatchers(HttpMethod.GET, "/", "/index", "/register", "/teams", "/teams/**", 
             "/players", "/players/**", "/tournaments", "/tournaments/**", "/matches", "/matches/**", "/referees", "/referees/**",
-            "/css/**", "/images/**", "/js/**", "/favicon.ico").permitAll();
+            "/css/**", "/images/**", "/js/**", "/favicon.ico", "/error").permitAll();
             authorize.requestMatchers(HttpMethod.POST, "/register", "/login").permitAll();
             authorize.requestMatchers(HttpMethod.GET, "/admin/**").hasAnyAuthority(ADMIN_ROLE);
             authorize.requestMatchers(HttpMethod.POST, "/admin/**").hasAnyAuthority(ADMIN_ROLE);
@@ -59,6 +61,14 @@ public class SecurityConfiguration {
             form.loginPage("/login").permitAll();
             form.defaultSuccessUrl("/", true);
             form.failureUrl("/login?error=true");
+        });
+
+        httpSecurity.oauth2Login(oauth2 -> {
+            oauth2.loginPage("/login").permitAll();
+            oauth2.userInfoEndpoint(userInfo -> 
+                userInfo.userService(customOAuth2UserService)
+            );
+            oauth2.defaultSuccessUrl("/", true);
         });
 
         httpSecurity.logout(logout -> {
