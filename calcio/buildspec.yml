@@ -1,0 +1,36 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto17
+  
+  pre_build:
+    commands:
+      - echo "Inizio fase di pre-build..."
+      - echo "Versione Java:"
+      - java -version
+      - echo "Versione Maven:"
+      - mvn -version
+
+  build:
+    commands:
+      - echo "Avvio della build del progetto Spring Boot con Maven..."
+      - mvn clean package -DskipTests
+      
+  post_build:
+    commands:
+      - echo "Build completata con successo."
+      - echo "Preparazione del pacchetto per Elastic Beanstalk (Docker)..."
+      - mkdir -p eb-deploy
+      # Copia il jar compilato nella cartella di deploy rinominandolo in app.jar
+      - cp target/*.jar eb-deploy/app.jar
+      # Copia il Dockerfile nella cartella di deploy
+      - cp Dockerfile eb-deploy/
+
+# I file specificati qui sotto verranno compressi in uno .zip 
+# e inviati dalla Pipeline direttamente a Elastic Beanstalk
+artifacts:
+  files:
+    - '**/*'
+  base-directory: 'eb-deploy'
