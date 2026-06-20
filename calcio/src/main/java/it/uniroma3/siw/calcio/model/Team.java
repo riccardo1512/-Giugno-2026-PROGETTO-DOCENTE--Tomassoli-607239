@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import it.uniroma3.siw.calcio.validation.NotFutureYear;
@@ -21,6 +22,9 @@ public class Team {
 
     @NotBlank
     private String name;
+    
+    @Column(columnDefinition = "TEXT")
+    private String logo;
     
     @Min(1850)
     @NotFutureYear
@@ -54,6 +58,14 @@ public class Team {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo;
     }
 
     public int getYearOfFoundation() {

@@ -33,7 +33,9 @@
 				<span th:text="'Fondazione: ' + ${team.yearOfFoundation}">2000</span>
 				<span th:text="'Città: ' + ${team.city}">Acilia</span>
 			</div>
-			<!-- <span><img width="5%" th:src="${team.urlImage}" alt="Immagine della squadra" /></span> -->
+			<div th:if="${team.logo != null}" style="margin-top: 15px;">
+				<img style="max-height: 150px; border-radius: 8px;" th:src="${team.logo}" alt="Logo della squadra" />
+			</div>
 		</div>
 
 

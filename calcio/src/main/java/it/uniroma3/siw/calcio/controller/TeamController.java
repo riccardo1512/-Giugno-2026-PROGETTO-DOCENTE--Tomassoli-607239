@@ -64,6 +64,7 @@ public class TeamController {
     @PostMapping("/admin/teams")
     public String save(@Valid @ModelAttribute("team") Team team,
             BindingResult bindingResult, Model model,
+            @RequestParam(value = "logoFile", required = false) org.springframework.web.multipart.MultipartFile logoFile,
             @RequestParam(required = false) String action,
             @RequestParam(required = false) Long playerId,
             @RequestParam(required = false) List<Long> playerIds) {
@@ -96,6 +97,20 @@ public class TeamController {
             model.addAttribute("teams", teamService.findAll());
             model.addAttribute("players", playerService.findAll());
             return "admin/teams/form";
+        }
+
+        if (logoFile != null && !logoFile.isEmpty()) {
+            try {
+                String base64Image = java.util.Base64.getEncoder().encodeToString(logoFile.getBytes());
+                team.setLogo("data:" + logoFile.getContentType() + ";base64," + base64Image);
+            } catch (java.io.IOException e) {
+                logger.error("Errore durante il caricamento del logo", e);
+            }
+        } else if (team.getId() != null) {
+            Optional<Team> existingTeam = teamService.findByIdWithPlayers(team.getId());
+            if (existingTeam.isPresent()) {
+                team.setLogo(existingTeam.get().getLogo());
+            }
         }
 
         teamService.save(team);

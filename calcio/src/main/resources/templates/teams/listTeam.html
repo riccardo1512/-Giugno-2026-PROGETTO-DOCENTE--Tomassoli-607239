@@ -27,9 +27,11 @@
     </header>
 	<h1>Squadre</h1>
 	<div th:if="${teams==null || teams.isEmpty()}">Non ci sono team nel sistema</div>
-	<ul>
-		<li th:each="team : ${teams}">
-			<a th:href="@{'/teams' + '/' + ${team.id}}" th:text="${team.name}">nome</a>
+	<ul style="list-style-type: none; padding: 0;">
+		<li th:each="team : ${teams}" style="margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+			<img th:if="${team.logo != null}" th:src="${team.logo}" alt="Logo" style="width: 40px; height: 40px; object-fit: contain; border-radius: 5px;" />
+			<div th:unless="${team.logo != null}" style="width: 40px; height: 40px; background-color: #eee; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #aaa;">N/A</div>
+			<a th:href="@{'/teams' + '/' + ${team.id}}" th:text="${team.name}" style="font-weight: bold; font-size: 1.2rem;">nome</a>
 		</li>
 	</ul>
 </body>
