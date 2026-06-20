@@ -17,16 +17,19 @@ import it.uniroma3.siw.calcio.exception.DuplicatePlayerException;
 import it.uniroma3.siw.calcio.model.Player;
 import it.uniroma3.siw.calcio.service.PlayerService;
 import it.uniroma3.siw.calcio.service.TeamService;
+import it.uniroma3.siw.calcio.validation.PlayerValidator;
 import jakarta.validation.Valid;
 
 @Controller
 public class PlayerController {
 	private final PlayerService playerService;
 	private final TeamService teamService;
+	private final PlayerValidator playerValidator;
 
-	public PlayerController(PlayerService playerService, TeamService teamService) {
+	public PlayerController(PlayerService playerService, TeamService teamService, PlayerValidator playerValidator) {
 		this.playerService = playerService;
 		this.teamService = teamService;
+		this.playerValidator = playerValidator;
 	}
 
 	@GetMapping("/players")
@@ -70,7 +73,10 @@ public class PlayerController {
 	public String save(@Valid @ModelAttribute("player") Player player,
 			BindingResult bindingResult, Model model) {
 
+		playerValidator.validate(player, bindingResult);
+
 		if (bindingResult.hasErrors()) {
+			model.addAttribute("teams", teamService.findAll());
 			return "admin/players/form";
 		}
 		try {

@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import it.uniroma3.siw.calcio.validation.NotFutureYear;
 
@@ -21,6 +22,7 @@ public class Team {
     @NotBlank
     private String name;
     
+    @Min(1850)
     @NotFutureYear
     private int yearOfFoundation;
 

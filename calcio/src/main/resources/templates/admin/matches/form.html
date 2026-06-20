@@ -46,17 +46,19 @@
         </div>
         <div>
             <label>Squadra Casa:</label>
-            <select th:field="*{teamHome}" required>
+            <select th:field="*{teamHome}" id="teamHome" required>
                 <option value="">Seleziona Squadra</option>
                 <option th:each="t : ${teams}" th:value="${t.id}" th:text="${t.name}"></option>
             </select>
+            <span th:if="${#fields.hasErrors('teamHome')}" th:errors="*{teamHome}" style="color:red"></span>
         </div>
         <div>
             <label>Squadra Ospite:</label>
-            <select th:field="*{teamAway}" required>
+            <select th:field="*{teamAway}" id="teamAway" required>
                 <option value="">Seleziona Squadra</option>
                 <option th:each="t : ${teams}" th:value="${t.id}" th:text="${t.name}"></option>
             </select>
+            <span th:if="${#fields.hasErrors('teamAway')}" th:errors="*{teamAway}" style="color:red"></span>
         </div>
         <div>
             <label>Arbitro:</label>
@@ -81,5 +83,38 @@
     </form>
     <br>
     <a class="back-link" th:href="@{/admin/index}">🔙 Torna alla dashboard Admin</a>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const teamHomeSelect = document.getElementById('teamHome');
+            const teamAwaySelect = document.getElementById('teamAway');
+
+            function updateOptions() {
+                const homeValue = teamHomeSelect.value;
+                const awayValue = teamAwaySelect.value;
+
+                // Abilita tutte le opzioni prima
+                Array.from(teamHomeSelect.options).forEach(opt => opt.disabled = false);
+                Array.from(teamAwaySelect.options).forEach(opt => opt.disabled = false);
+
+                // Disabilita l'opzione selezionata nell'altro menu
+                if (homeValue) {
+                    const awayOptionToDisable = teamAwaySelect.querySelector(`option[value="${homeValue}"]`);
+                    if (awayOptionToDisable) awayOptionToDisable.disabled = true;
+                }
+                
+                if (awayValue) {
+                    const homeOptionToDisable = teamHomeSelect.querySelector(`option[value="${awayValue}"]`);
+                    if (homeOptionToDisable) homeOptionToDisable.disabled = true;
+                }
+            }
+
+            teamHomeSelect.addEventListener('change', updateOptions);
+            teamAwaySelect.addEventListener('change', updateOptions);
+            
+            // Inizializza all'apertura
+            updateOptions();
+        });
+    </script>
 </body>
 </html>

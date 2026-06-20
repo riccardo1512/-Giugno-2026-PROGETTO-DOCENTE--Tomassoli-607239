@@ -12,6 +12,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.EnumType;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Match {
@@ -20,7 +21,9 @@ public class Match {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotNull
     private LocalDate date;
+    @NotNull
     private LocalTime time;
     private Integer goalsHome;
     private Integer goalsAway;
@@ -30,8 +33,10 @@ public class Match {
     @ManyToOne
     private Tournament tournament;
     
+    @NotNull
     @ManyToOne
     private Team teamHome;
+    @NotNull
     @ManyToOne
     private Team teamAway;
     

@@ -13,6 +13,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import it.uniroma3.siw.calcio.validation.NotFutureYear;
 
 @Entity
 public class Tournament {
@@ -25,7 +26,7 @@ public class Tournament {
     private String name;
 
     @Min(1900)
-    @Max(2100)
+    @NotFutureYear
     private int year;
     
     private String description;

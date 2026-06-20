@@ -10,8 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import it.uniroma3.siw.calcio.model.Tournament;
 import it.uniroma3.siw.calcio.model.Match;
-import it.uniroma3.siw.calcio.service.TournamentService;
 import it.uniroma3.siw.calcio.service.TeamService;
+import it.uniroma3.siw.calcio.service.TournamentService;
+import it.uniroma3.siw.calcio.validation.TournamentValidator;
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Comparator;
@@ -21,10 +22,13 @@ import java.util.stream.Collectors;
 public class TournamentController {
     private final TournamentService tournamentService;
     private final TeamService teamService;
+    private final TournamentValidator tournamentValidator;
 
-    public TournamentController(TournamentService tournamentService, TeamService teamService) {
+    public TournamentController(TournamentService tournamentService, TeamService teamService,
+            TournamentValidator tournamentValidator) {
         this.tournamentService = tournamentService;
         this.teamService = teamService;
+        this.tournamentValidator = tournamentValidator;
     }
 
     @GetMapping("/tournaments")
@@ -33,17 +37,15 @@ public class TournamentController {
         return "tournaments/listTournament";
     }
 
-
-
     @GetMapping("/tournaments/{id}")
     public String show(@PathVariable Long id, Model model) {
         Tournament tournament = tournamentService.findByIdWithMatches(id).orElse(null);
         if (tournament != null && tournament.getMatches() != null) {
-            
+
             // Creiamo due liste vuote
             List<Match> playedMatches = new java.util.ArrayList<>();
             List<Match> scheduledMatches = new java.util.ArrayList<>();
-            
+
             // Riempiamo le liste con un normale ciclo for
             for (Match m : tournament.getMatches()) {
                 if (m.getState().name().equals("PLAYED")) {
@@ -52,8 +54,9 @@ public class TournamentController {
                     scheduledMatches.add(m);
                 }
             }
-            
-            // Creiamo un "comparatore normale" locale per ordinare prima per data, poi per ora
+
+            // Creiamo un "comparatore normale" locale per ordinare prima per data, poi per
+            // ora
             Comparator<Match> matchComparator = new Comparator<Match>() {
                 @Override
                 public int compare(Match m1, Match m2) {
@@ -64,15 +67,15 @@ public class TournamentController {
                     return dateCmp;
                 }
             };
-            
+
             // Ordiniamo le liste
             java.util.Collections.sort(playedMatches, matchComparator);
             java.util.Collections.sort(scheduledMatches, matchComparator);
-                
+
             model.addAttribute("playedMatches", playedMatches);
             model.addAttribute("scheduledMatches", scheduledMatches);
         }
-        
+
         model.addAttribute("tournament", tournament);
         model.addAttribute("ranking", tournamentService.getTournamentRanking(id));
         return "tournaments/showTournament";
@@ -86,8 +89,13 @@ public class TournamentController {
     }
 
     @PostMapping("/admin/tournaments")
-    public String save(@Valid @ModelAttribute("tournament") Tournament tournament, BindingResult bindingResult, Model model) {
+    public String save(@Valid @ModelAttribute("tournament") Tournament tournament, BindingResult bindingResult,
+            Model model) {
+
+        tournamentValidator.validate(tournament, bindingResult);
+
         if (bindingResult.hasErrors()) {
+            model.addAttribute("teams", teamService.findAll());
             return "admin/tournaments/form";
         }
         tournamentService.save(tournament);

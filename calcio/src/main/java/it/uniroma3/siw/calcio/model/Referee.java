@@ -7,6 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 public class Referee {
@@ -15,8 +16,11 @@ public class Referee {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
+    @NotBlank
     private String name;
+    @NotBlank
     private String surname;
+    @NotBlank
     private String refereeCode;
 
     

@@ -14,6 +14,9 @@ import it.uniroma3.siw.calcio.model.RankingRow;
 
 public interface TournamentRepository extends JpaRepository<Tournament, Long>{
 
+    boolean existsByNameAndYear(String name, int year);
+    boolean existsByNameAndYearAndIdNot(String name, int year, Long id);
+
     @Query(value = "SELECT t.id AS teamId, t.name AS teamName, " +
            "SUM(CASE " +
            "  WHEN m.state = 'PLAYED' AND m.team_home_id = t.id THEN m.goals_home " +

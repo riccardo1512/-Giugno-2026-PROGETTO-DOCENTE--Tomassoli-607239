@@ -8,14 +8,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import it.uniroma3.siw.calcio.model.Comment;
 import it.uniroma3.siw.calcio.model.Match;
 import it.uniroma3.siw.calcio.model.MatchState;
+import it.uniroma3.siw.calcio.service.CommentService;
 import it.uniroma3.siw.calcio.service.MatchService;
 import it.uniroma3.siw.calcio.service.RefereeService;
 import it.uniroma3.siw.calcio.service.TeamService;
 import it.uniroma3.siw.calcio.service.TournamentService;
-import it.uniroma3.siw.calcio.service.CommentService;
-import it.uniroma3.siw.calcio.model.Comment;
+import it.uniroma3.siw.calcio.validation.MatchValidator;
 import jakarta.validation.Valid;
 
 @Controller
@@ -25,13 +26,16 @@ public class MatchController {
     private final TeamService teamService;
     private final RefereeService refereeService;
     private final CommentService commentService;
+    private final MatchValidator matchValidator;
 
-    public MatchController(MatchService matchService, TournamentService tournamentService, TeamService teamService, RefereeService refereeService, CommentService commentService) {
+    public MatchController(MatchService matchService, TournamentService tournamentService, TeamService teamService,
+            RefereeService refereeService, CommentService commentService, MatchValidator matchValidator) {
         this.matchService = matchService;
         this.tournamentService = tournamentService;
         this.teamService = teamService;
         this.refereeService = refereeService;
         this.commentService = commentService;
+        this.matchValidator = matchValidator;
     }
 
     @GetMapping("/matches")
@@ -63,6 +67,9 @@ public class MatchController {
 
     @PostMapping("/admin/matches")
     public String save(@Valid @ModelAttribute("match") Match match, BindingResult bindingResult, Model model) {
+
+        matchValidator.validate(match, bindingResult);
+
         if (bindingResult.hasErrors()) {
             model.addAttribute("tournaments", tournamentService.findAll());
             model.addAttribute("teams", teamService.findAll());

@@ -10,14 +10,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import it.uniroma3.siw.calcio.model.Referee;
 import it.uniroma3.siw.calcio.service.RefereeService;
+import it.uniroma3.siw.calcio.validation.RefereeValidator;
 import jakarta.validation.Valid;
 
 @Controller
 public class RefereeController {
     private final RefereeService refereeService;
+    private final RefereeValidator refereeValidator;
 
-    public RefereeController(RefereeService refereeService) {
+    public RefereeController(RefereeService refereeService, RefereeValidator refereeValidator) {
         this.refereeService = refereeService;
+        this.refereeValidator = refereeValidator;
     }
 
     @GetMapping("/referees")
@@ -40,6 +43,9 @@ public class RefereeController {
 
     @PostMapping("/admin/referees")
     public String save(@Valid @ModelAttribute("referee") Referee referee, BindingResult bindingResult, Model model) {
+
+        refereeValidator.validate(referee, bindingResult);
+
         if (bindingResult.hasErrors()) {
             return "admin/referees/form";
         }
