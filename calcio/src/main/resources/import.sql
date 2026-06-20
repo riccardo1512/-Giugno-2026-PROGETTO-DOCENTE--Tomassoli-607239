@@ -43,3 +43,31 @@ insert into tournament_teams (tournaments_id, teams_id) values((select id from t
 insert into tournament_teams (tournaments_id, teams_id) values((select id from tournament where name = 'Serie A' and year = 2025), (select id from team where name = 'Milan'));
 insert into tournament_teams (tournaments_id, teams_id) values((select id from tournament where name = 'Coppa Italia' and year = 2025), (select id from team where name = 'Inter'));
 insert into tournament_teams (tournaments_id, teams_id) values((select id from tournament where name = 'Coppa Italia' and year = 2025), (select id from team where name = 'Roma'));
+
+-- Aggiunta giocatori per avere almeno 4 giocatori per squadra
+insert into player (id, name, surname, date_of_birth, role, height, team_id) values(nextval('player_seq'), 'Alessandro', 'Del Piero', '1974-11-09', 'ATTACCANTE', 174, (select id from team where name = 'Juventus'));
+insert into player (id, name, surname, date_of_birth, role, height, team_id) values(nextval('player_seq'), 'Gianluigi', 'Buffon', '1978-01-28', 'PORTIERE', 192, (select id from team where name = 'Juventus'));
+insert into player (id, name, surname, date_of_birth, role, height, team_id) values(nextval('player_seq'), 'Giorgio', 'Chiellini', '1984-08-14', 'DIFENSORE', 187, (select id from team where name = 'Juventus'));
+
+insert into player (id, name, surname, date_of_birth, role, height, team_id) values(nextval('player_seq'), 'Francesco', 'Totti', '1976-09-27', 'ATTACCANTE', 180, (select id from team where name = 'Roma'));
+insert into player (id, name, surname, date_of_birth, role, height, team_id) values(nextval('player_seq'), 'Daniele', 'De Rossi', '1983-07-24', 'CENTROCAMPISTA', 184, (select id from team where name = 'Roma'));
+
+insert into player (id, name, surname, date_of_birth, role, height, team_id) values(nextval('player_seq'), 'Javier', 'Zanetti', '1973-08-10', 'DIFENSORE', 178, (select id from team where name = 'Inter'));
+insert into player (id, name, surname, date_of_birth, role, height, team_id) values(nextval('player_seq'), 'Diego', 'Milito', '1979-06-12', 'ATTACCANTE', 183, (select id from team where name = 'Inter'));
+insert into player (id, name, surname, date_of_birth, role, height, team_id) values(nextval('player_seq'), 'Wesley', 'Sneijder', '1984-06-09', 'CENTROCAMPISTA', 170, (select id from team where name = 'Inter'));
+
+insert into player (id, name, surname, date_of_birth, role, height, team_id) values(nextval('player_seq'), 'Paolo', 'Maldini', '1968-06-26', 'DIFENSORE', 186, (select id from team where name = 'Milan'));
+insert into player (id, name, surname, date_of_birth, role, height, team_id) values(nextval('player_seq'), 'Gennaro', 'Gattuso', '1978-01-09', 'CENTROCAMPISTA', 177, (select id from team where name = 'Milan'));
+insert into player (id, name, surname, date_of_birth, role, height, team_id) values(nextval('player_seq'), 'Filippo', 'Inzaghi', '1973-08-09', 'ATTACCANTE', 181, (select id from team where name = 'Milan'));
+
+insert into player (id, name, surname, date_of_birth, role, height, team_id) values(nextval('player_seq'), 'Alessandro', 'Nesta', '1976-03-19', 'DIFENSORE', 187, (select id from team where name = 'Lazio'));
+insert into player (id, name, surname, date_of_birth, role, height, team_id) values(nextval('player_seq'), 'Ciro', 'Immobile', '1990-02-20', 'ATTACCANTE', 185, (select id from team where name = 'Lazio'));
+insert into player (id, name, surname, date_of_birth, role, height, team_id) values(nextval('player_seq'), 'Sergej', 'Milinkovic-Savic', '1995-02-27', 'CENTROCAMPISTA', 191, (select id from team where name = 'Lazio'));
+
+-- Aggiunta commenti
+insert into comments (id, text, author_id, match_id) values(nextval('comment_seq'), 'Partita incredibile, il derby non delude mai!', (select id from users where username = 'mario'), (select id from match where date = '2025-09-01'));
+insert into comments (id, text, author_id, match_id) values(nextval('comment_seq'), 'La Lazio meritava di più secondo me.', (select id from users where username = 'luigi'), (select id from match where date = '2025-09-01'));
+
+insert into comments (id, text, author_id, match_id) values(nextval('comment_seq'), 'Un classico del calcio italiano, sempre bello vederlo.', (select id from users where username = 'paolo'), (select id from match where date = '2025-09-07'));
+
+insert into comments (id, text, author_id, match_id) values(nextval('comment_seq'), 'Non vedo l''ora di guardarla allo stadio!', (select id from users where username = 'mario'), (select id from match where date = '2025-11-20'));

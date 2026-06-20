@@ -7,39 +7,49 @@
 </head>
 
 <body>
-    <header>
-		<div th:if="${userDetails}">
-			<span th:text="${userDetails.username}"></span>
-			<form th:action="@{/logout}" method="POST" style="display:inline;">
-				<button type="submit">Logout</button>
-			</form>
-		</div>
+    <header class="navbar">
+        <div class="navbar-container">
+            <div class="nav-brand">
+                <a href="/"><img src="/images/logo_calcio.png" alt="Logo" /></a>
+            </div>
+            <div class="nav-actions">
+                <div th:if="${userDetails}" style="display: flex; align-items: center; gap: 15px;">
+                    <span th:text="${userDetails.username}"></span>
+                    <form th:action="@{/logout}" method="POST">
+                        <button type="submit" class="btn-logout">Logout</button>
+                    </form>
+                </div>
+                <div th:unless="${userDetails}">
+                    <a href="/login">Accedi</a> | <a href="/register">Registrati</a>
+                </div>
+            </div>
+        </div>
     </header>
-	<div><a href="/"><img src="/images/logo_calcio.png" width="50%" /></a></div>
 	<h1>Dettagli Arbitro</h1>
 	
 	<div th:if="${referee}">
-		<p><strong>Nome:</strong> <span th:text="${referee.name}">Nome</span></p>
-		<p><strong>Cognome:</strong> <span th:text="${referee.surname}">Cognome</span></p>
-		<p><strong>Codice Arbitrale:</strong> <span th:text="${referee.refereeCode}">Codice</span></p>
-	</div>
+		<div class="details-card">
+			<h2 class="details-title" th:text="${referee.name} + ' ' + ${referee.surname}">Nome Cognome</h2>
+			<div class="details-meta">
+				<span th:text="'Codice: ' + ${referee.refereeCode}">Codice</span>
+			</div>
+		</div>
 
 	<div th:if="${userDetails != null and userDetails.authorities[0].authority == 'ADMIN' and referee != null}">
 		<hr>
 		<h3>Amministrazione</h3>
-		<a th:href="@{'/admin/referees/' + ${referee.id} + '/edit'}">Modifica Arbitro</a>
-		<form th:action="@{'/admin/referees/' + ${referee.id} + '/delete'}" method="POST" style="display:inline;">
-			<button type="submit" onclick="return confirm('Sei sicuro di voler eliminare questo arbitro?')">Elimina Arbitro</button>
-		</form>
+		<div class="admin-actions">
+			<a class="btn-action" th:href="@{'/admin/referees/' + ${referee.id} + '/edit'}">Modifica Arbitro</a>
+			<form th:action="@{'/admin/referees/' + ${referee.id} + '/delete'}" method="POST" style="display:inline;">
+				<button type="submit" class="btn-danger" onclick="return confirm('Sei sicuro di voler eliminare questo arbitro?')">Elimina Arbitro</button>
+			</form>
+		</div>
 	</div>
 	
 	<div th:unless="${referee}">
 		L'arbitro richiesto non esiste.
 	</div>
 	
-	<div>
-		<br>
-		<a href="/referees">Torna all'elenco degli arbitri</a>
 	</div>
 </body>
 

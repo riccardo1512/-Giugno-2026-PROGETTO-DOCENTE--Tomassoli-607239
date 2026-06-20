@@ -9,50 +9,59 @@
 </head>
 
 <body>
-	<header>
-		<div th:if="${userDetails}">
-			<span th:text="${userDetails.username}"></span>
-			<form th:action="@{/logout}" method="POST" style="display:inline;">
-				<button type="submit">Logout</button>
-			</form>
-		</div>
-		<div th:unless="${userDetails}">
-			<a href="/login">Login</a>
-		</div>
-	</header>
+	<header class="navbar">
+        <div class="navbar-container">
+            <div class="nav-brand">
+                <a href="/"><img src="/images/logo_calcio.png" alt="Logo" /></a>
+            </div>
+            <div class="nav-actions">
+                <div th:unless="${userDetails}">
+                    <a href="/register">Registrati</a>
+                </div>
+            </div>
+        </div>
+    </header>
 
-	<div>
-		<a href="/"><img src="/images/logo_calcio.png" width="50%"/></a>
-	</div>
-	<h1>Login</h1>
-	<form th:action="@{/login}" method="POST">
-			<div>
-				<span>Username:</span>
-				<span><input name="username" type="text" required /></span>
-			</div>
-			<div>
-				<span>Password:</span>
-				<span><input name="password" type="password" required /></span>
-			</div>
-			<div>
-				<span th:if="${param.error != null}">Username o password errati</span>
-			</div>
-			<div>
-				<span><button type="submit">Login</button></span>
-			</div>
+	<form th:action="@{/login}" method="POST" class="auth-card">
+		<h1>Accedi</h1>
+		
+		<div>
+			<label>Username</label>
+			<input name="username" type="text" required placeholder="Inserisci il tuo username..." />
+		</div>
+		<div>
+			<label>Password</label>
+			<input name="password" type="password" required placeholder="La tua password segreta..." />
+		</div>
+		
+		<div>
+			<span class="error-message" th:if="${param.error != null}">Username o password errati! Riprova.</span>
+		</div>
+		
+		<div style="text-align: center; margin-top: 10px;">
+			<button type="submit" style="width: 100%;">Entra in campo ⚽</button>
+		</div>
+
+		<hr style="margin: 25px 0; border: 0; border-top: 1px solid lightgray;">
+
+		<div style="text-align: center;">
+			<p style="margin-bottom: 15px; color: dimgray; font-size: 14px;">Oppure accedi con i tuoi social:</p>
+			
+			<a th:href="@{/oauth2/authorization/google}" class="btn-google">
+				<img src="https://www.svgrepo.com/show/475656/google-color.svg" class="auth-icon" alt="Google"/> 
+				Continua con Google
+			</a>
+			
+			<a th:href="@{/oauth2/authorization/github}" class="btn-github">
+				<img src="https://www.svgrepo.com/show/512317/github-142.svg" class="auth-icon" alt="GitHub" style="filter: invert(1);"/> 
+				Continua con GitHub
+			</a>
+		</div>
+
+		<div style="text-align: center; margin-top: 25px; font-size: 14px;">
+			Non hai un account? <a th:href="@{/register}" style="font-weight: bold;">Registrati ora!</a>
+		</div>
 	</form>
-	
-	<div style="text-align: center; margin-top: 20px; max-width: 900px; margin-left: auto; margin-right: auto; padding-left: 20px; padding-right: 20px;">
-		<p style="margin-bottom: 10px; color: dimgray;">Oppure accedi tramite i provider esterni:</p>
-		<div style="display: flex; gap: 10px; justify-content: center;">
-			<a th:href="@{/oauth2/authorization/google}" style="background-color: #db4437; color: white; padding: 10px 20px; border-radius: 4px; font-weight: bold; text-decoration: none;">Accedi con Google</a>
-			<a th:href="@{/oauth2/authorization/github}" style="background-color: #333333; color: white; padding: 10px 20px; border-radius: 4px; font-weight: bold; text-decoration: none;">Accedi con GitHub</a>
-		</div>
-	</div>
-
-	<div style="text-align: center; margin-top: 30px;">
-		<a th:href="@{/register}" th:text="Registrati">Registrati</a>
-	</div>
 </body>
 
 </html>

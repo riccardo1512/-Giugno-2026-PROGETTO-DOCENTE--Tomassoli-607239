@@ -5,36 +5,37 @@
 	<link rel="stylesheet" href="/css/stile.css" />
 </head>
 <body>
-    <header>
-		<div th:if="${userDetails}">
-			<span th:text="${userDetails.username}"></span>
-			<form th:action="@{/logout}" method="POST" style="display:inline;">
-				<button type="submit">Logout</button>
-			</form>
-		</div>
+    <header class="navbar">
+        <div class="navbar-container">
+            <div class="nav-brand">
+                <a href="/"><img src="/images/logo_calcio.png" alt="Logo" /></a>
+            </div>
+            <div class="nav-actions">
+                <div th:if="${userDetails}" style="display: flex; align-items: center; gap: 15px;">
+                    <span th:text="${userDetails.username}"></span>
+                    <form th:action="@{/logout}" method="POST">
+                        <button type="submit" class="btn-logout">Logout</button>
+                    </form>
+                </div>
+                <div th:unless="${userDetails}">
+                    <a href="/login">Accedi</a> | <a href="/register">Registrati</a>
+                </div>
+            </div>
+        </div>
     </header>
-	<div><a href="/"><img src="/images/logo_calcio.png" width="50%" /></a></div>
 	<h1>Dettagli Partita</h1>
 	<div th:if="${match}">
-
-		<h2>
-			<a th:href="@{'/teams/' + ${match.teamHome.id}}" th:text="${match.teamHome.name}">Squadra Casa</a>
-			<span th:if="${match.state.name() != 'PLAYED'}"> vs </span>
-			<span th:if="${match.state.name() == 'PLAYED'}" th:text="' ' + ${match.goalsHome} + ' - ' + ${match.goalsAway} + ' '"> 0 - 0 </span>
-			<a th:href="@{'/teams/' + ${match.teamAway.id}}" th:text="${match.teamAway.name}">Squadra Ospite</a>
-		</h2>
-
-		<div>
-			<strong>Torneo:</strong> 
-			<span th:if="${match.tournament}">
-				<a th:href="@{'/tournaments/' + ${match.tournament.id}}" th:text="${match.tournament.name}">Torneo</a>
-			</span>
-		</div>
-		<div>
-			<strong>Data e Ora:</strong> <span th:text="${match.date} + ' alle ' + ${match.time}">01/01/2025 20:45</span>
-		</div>
-		<div>
-			<strong>Stato:</strong> <span th:text="${match.state}">PROGRAMMATA</span>
+		<div class="details-card">
+			<h2 class="details-title">
+				<a th:href="@{'/teams/' + ${match.teamHome.id}}" th:text="${match.teamHome.name}" style="color: inherit; text-decoration: none;">Squadra Casa</a>
+				<span th:if="${match.state.name() != 'PLAYED'}"> vs </span>
+				<span th:if="${match.state.name() == 'PLAYED'}" th:text="' ' + ${match.goalsHome} + ' - ' + ${match.goalsAway} + ' '"> 0 - 0 </span>
+				<a th:href="@{'/teams/' + ${match.teamAway.id}}" th:text="${match.teamAway.name}" style="color: inherit; text-decoration: none;">Squadra Ospite</a>
+			</h2>
+			<div class="details-meta">
+				<span th:text="'📅 ' + ${match.date} + ' alle ' + ${match.time}">01/01/2025 20:45</span>
+				<span th:text="'Stato: ' + ${match.state}">PROGRAMMATA</span>
+			</div>
 		</div>
 		<div>
 			<strong>Arbitro:</strong> 
@@ -54,7 +55,7 @@
 				<div th:if="${userDetails != null and (userDetails.username == c.author.username or userDetails.authorities[0].authority == 'ADMIN')}" style="margin-top: 5px;">
 					<a th:if="${userDetails.username == c.author.username}" th:href="@{'/user/comments/' + ${c.id} + '/edit'}" style="font-size: 0.9em; color: blue; margin-right: 10px;">Modifica</a>
 					<form th:action="@{'/user/comments/' + ${c.id} + '/delete'}" method="POST" style="display:inline;">
-						<button type="submit" style="font-size: 0.9em; color: red; border: none; background: none; cursor: pointer; padding: 0; text-decoration: underline;">Elimina</button>
+						<button type="submit" class="btn-danger-link">Elimina</button>
 					</form>
 				</div>
 			</div>
@@ -78,10 +79,12 @@
 		<div th:if="${userDetails != null and userDetails.authorities[0].authority == 'ADMIN'}">
 			<hr>
 			<h3>Amministrazione</h3>
-			<a th:href="@{'/admin/matches/' + ${match.id} + '/edit'}">Modifica Risultato/Partita</a>
-			<form th:action="@{'/admin/matches/' + ${match.id} + '/delete'}" method="POST" style="display:inline;">
-				<button type="submit" onclick="return confirm('Sei sicuro di voler eliminare questa partita?')">Elimina Partita</button>
-			</form>
+			<div class="admin-actions">
+				<a class="btn-action" th:href="@{'/admin/matches/' + ${match.id} + '/edit'}">Modifica Partita</a>
+				<form th:action="@{'/admin/matches/' + ${match.id} + '/delete'}" method="POST" style="display:inline;">
+					<button type="submit" class="btn-danger" onclick="return confirm('Sei sicuro di voler eliminare questa partita?')">Elimina Partita</button>
+				</form>
+			</div>
 		</div>
 
 	</div>

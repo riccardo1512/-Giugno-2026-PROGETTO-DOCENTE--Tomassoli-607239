@@ -7,32 +7,34 @@
 </head>
 
 <body>
-    <header>
-		<div th:if="${userDetails}">
-			<span th:text="${userDetails.username}"></span>
-			<form th:action="@{/logout}" method="POST" style="display:inline;">
-				<button type="submit">Logout</button>
-			</form>
-		</div>
+    <header class="navbar">
+        <div class="navbar-container">
+            <div class="nav-brand">
+                <a href="/"><img src="/images/logo_calcio.png" alt="Logo" /></a>
+            </div>
+            <div class="nav-actions">
+                <div th:if="${userDetails}" style="display: flex; align-items: center; gap: 15px;">
+                    <span th:text="${userDetails.username}"></span>
+                    <form th:action="@{/logout}" method="POST">
+                        <button type="submit" class="btn-logout">Logout</button>
+                    </form>
+                </div>
+                <div th:unless="${userDetails}">
+                    <a href="/login">Accedi</a> | <a href="/register">Registrati</a>
+                </div>
+            </div>
+        </div>
     </header>
-	<div><a href="/"><img src="/images/logo_calcio.png" width="50%" /></a></div>
 	<h1>Dettagli Team</h1>
 	<div th:if="${team}">
-
-		<span th:text="${team.name}">Roma</span>
-
-		<span th:text="'(' + ${team.yearOfFoundation} + ')'">2000</span>
-
-		<span th:text="'(' + ${team.city} + ')'">Acilia</span>
-
-		<!-- <span><img width="5%" th:src="${team.urlImage}" alt="Immagine della squadra" /></span> -->
-
-		<!-- 
-		<div>
-			<strong>:</strong> 
-			<span th:if="${movie.director}" th:text="${movie.director.name}">Nome regista</span>
-			<span th:unless="${movie.director}">Non specificato</span>
-		</div> -->
+		<div class="details-card">
+			<h2 class="details-title" th:text="${team.name}">Roma</h2>
+			<div class="details-meta">
+				<span th:text="'Fondazione: ' + ${team.yearOfFoundation}">2000</span>
+				<span th:text="'Città: ' + ${team.city}">Acilia</span>
+			</div>
+			<!-- <span><img width="5%" th:src="${team.urlImage}" alt="Immagine della squadra" /></span> -->
+		</div>
 
 
 		<div>
@@ -78,10 +80,12 @@
 		<div th:if="${userDetails != null and userDetails.authorities[0].authority == 'ADMIN'}">
 			<hr>
 			<h3>Amministrazione</h3>
-			<a th:href="@{'/admin/teams/' + ${team.id} + '/edit'}">Modifica Squadra</a>
-			<form th:action="@{'/admin/teams/' + ${team.id} + '/delete'}" method="POST" style="display:inline;">
-				<button type="submit" onclick="return confirm('Sei sicuro di voler eliminare questa squadra?')">Elimina Squadra</button>
-			</form>
+			<div class="admin-actions">
+				<a class="btn-action" th:href="@{'/admin/teams/' + ${team.id} + '/edit'}">Modifica Squadra</a>
+				<form th:action="@{'/admin/teams/' + ${team.id} + '/delete'}" method="POST" style="display:inline;">
+					<button type="submit" class="btn-danger" onclick="return confirm('Sei sicuro di voler eliminare questa squadra?')">Elimina Squadra</button>
+				</form>
+			</div>
 		</div>
 		
 	</div>

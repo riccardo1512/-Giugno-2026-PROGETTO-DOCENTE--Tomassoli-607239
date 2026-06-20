@@ -7,23 +7,33 @@
 </head>
 
 <body>
-    <header>
-		<div th:if="${userDetails}">
-			<span th:text="${userDetails.username}"></span>
-			<form th:action="@{/logout}" method="POST" style="display:inline;">
-				<button type="submit">Logout</button>
-			</form>
-		</div>
+    <header class="navbar">
+        <div class="navbar-container">
+            <div class="nav-brand">
+                <a href="/"><img src="/images/logo_calcio.png" alt="Logo" /></a>
+            </div>
+            <div class="nav-actions">
+                <div th:if="${userDetails}" style="display: flex; align-items: center; gap: 15px;">
+                    <span th:text="${userDetails.username}"></span>
+                    <form th:action="@{/logout}" method="POST">
+                        <button type="submit" class="btn-logout">Logout</button>
+                    </form>
+                </div>
+                <div th:unless="${userDetails}">
+                    <a href="/login">Accedi</a> | <a href="/register">Registrati</a>
+                </div>
+            </div>
+        </div>
     </header>
-	<div><a href="/"><img src="/images/logo_calcio.png" width="50%" /></a></div>
 	<h1>Dettagli Torneo</h1>
 	<div th:if="${tournament}">
-
-		<span th:text="${tournament.name}">Nome Torneo</span>
-
-		<span th:text="'(' + ${tournament.year} + ')'">2025</span>
-
-		<p th:text="${tournament.description}">descrizione</p>
+		<div class="details-card">
+			<h2 class="details-title" th:text="${tournament.name}">Nome Torneo</h2>
+			<div class="details-meta">
+				<span th:text="'Anno: ' + ${tournament.year}">2025</span>
+			</div>
+			<p class="description" th:text="${tournament.description}">descrizione</p>
+		</div>
 
 		<div>
 			<strong>Squadre Iscritte:</strong>
@@ -59,15 +69,17 @@
 
 		<div>
 			<strong>Classifica (Gol Fatti):</strong>
-			<table border="1" th:if="${not #lists.isEmpty(ranking)}">
+			<table class="styled-table" th:if="${not #lists.isEmpty(ranking)}">
 				<thead>
 					<tr>
+						<th>Posizione</th>
 						<th>Squadra</th>
 						<th>Gol Fatti</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="row : ${ranking}">
+					<tr th:each="row, iterStat : ${ranking}" th:class="${iterStat.index == 0} ? 'first-place' : ''">
+						<td th:text="${iterStat.index + 1} + '°'">1°</td>
 						<td>
 							<a th:href="@{'/teams' + '/' + ${row.teamId}}" th:text="${row.teamName}">Nome</a>
 						</td>
@@ -81,10 +93,12 @@
 		<div th:if="${userDetails != null and userDetails.authorities[0].authority == 'ADMIN'}">
 			<hr>
 			<h3>Amministrazione</h3>
-			<a th:href="@{'/admin/tournaments/' + ${tournament.id} + '/edit'}">Modifica Torneo</a>
-			<form th:action="@{'/admin/tournaments/' + ${tournament.id} + '/delete'}" method="POST" style="display:inline;">
-				<button type="submit" onclick="return confirm('Sei sicuro di voler eliminare questo torneo?')">Elimina Torneo</button>
-			</form>
+			<div class="admin-actions">
+				<a class="btn-action" th:href="@{'/admin/tournaments/' + ${tournament.id} + '/edit'}">Modifica Torneo</a>
+				<form th:action="@{'/admin/tournaments/' + ${tournament.id} + '/delete'}" method="POST" style="display:inline;">
+					<button type="submit" class="btn-danger" onclick="return confirm('Sei sicuro di voler eliminare questo torneo?')">Elimina Torneo</button>
+				</form>
+			</div>
 		</div>
 
 	</div>
