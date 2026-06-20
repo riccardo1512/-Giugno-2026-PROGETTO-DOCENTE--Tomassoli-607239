@@ -1,5 +1,7 @@
 package it.uniroma3.siw.calcio.controller;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
@@ -31,6 +33,30 @@ public class PlayerController {
 	public String list(Model model) {
 		model.addAttribute("players", playerService.findAll());
 		return "players/listPlayer";
+	}
+
+	@GetMapping("/players/react")
+	public String listReact(Model model) {
+		List<Map<String, Object>> playerDTOs = new java.util.ArrayList<>();
+		for (Player p : playerService.findAll()) {
+			Map<String, Object> dto = new java.util.HashMap<>();
+			dto.put("id", p.getId());
+			dto.put("name", p.getName());
+			dto.put("surname", p.getSurname());
+			dto.put("role", p.getRole());
+			if (p.getDateOfBirth() != null) {
+				dto.put("dateOfBirth", p.getDateOfBirth().toString());
+			}
+			dto.put("height", p.getHeight());
+			if (p.getTeam() != null) {
+				Map<String, Object> teamDto = new java.util.HashMap<>();
+				teamDto.put("name", p.getTeam().getName());
+				dto.put("team", teamDto);
+			}
+			playerDTOs.add(dto);
+		}
+		model.addAttribute("players", playerDTOs);
+		return "players/reactPlayers";
 	}
 
 	@GetMapping("/admin/players/new")
