@@ -14,16 +14,16 @@ insert into player (id, name, surname, date_of_birth, role, height, team_id) val
 insert into referee (id, name, surname, referee_code) values(nextval('referee_seq'), 'Daniele', 'Greco', 'R-1001');
 insert into referee (id, name, surname, referee_code) values(nextval('referee_seq'), 'Simone', 'Ferri', 'R-1002');
 
-insert into tournament (id, name, year, description) values(nextval('tournament_seq'), 'Serie A', 2025, 'Campionato nazionale di massima serie.');
-insert into tournament (id, name, year, description) values(nextval('tournament_seq'), 'Coppa Italia', 2025, 'Competizione a eliminazione diretta.');
+insert into tournament (id, name, year, description) values(nextval('tournament_seq'), 'Serie A', 2026, 'Campionato nazionale di massima serie.');
+insert into tournament (id, name, year, description) values(nextval('tournament_seq'), 'Coppa Italia', 2026, 'Competizione a eliminazione diretta.');
 
-insert into match (id, date, time, state, goals_home, goals_away, tournament_id, team_home_id, team_away_id, referee_id) values(nextval('match_seq'), '2025-09-01', '20:45:00', 'PLAYED', 3, 1, (select id from tournament where name = 'Serie A' and year = 2025), (select id from team where name = 'Roma'), (select id from team where name = 'Lazio'), (select id from referee where referee_code = 'R-1001'));
-insert into match (id, date, time, state, goals_home, goals_away, tournament_id, team_home_id, team_away_id, referee_id) values(nextval('match_seq'), '2025-09-07', '18:00:00', 'PLAYED', 2, 2, (select id from tournament where name = 'Serie A' and year = 2025), (select id from team where name = 'Juventus'), (select id from team where name = 'Milan'), (select id from referee where referee_code = 'R-1002'));
-insert into match (id, date, time, state, goals_home, goals_away, tournament_id, team_home_id, team_away_id, referee_id) values(nextval('match_seq'), '2025-10-15', '21:00:00', 'PLAYED', 2, 1, (select id from tournament where name = 'Coppa Italia' and year = 2025), (select id from team where name = 'Inter'), (select id from team where name = 'Roma'), (select id from referee where referee_code = 'R-1001'));
+insert into match (id, date, time, state, goals_home, goals_away, tournament_id, team_home_id, team_away_id, referee_id) values(nextval('match_seq'), '2026-04-01', '20:45:00', 'PLAYED', 3, 1, (select id from tournament where name = 'Serie A' and year = 2026), (select id from team where name = 'Roma'), (select id from team where name = 'Lazio'), (select id from referee where referee_code = 'R-1001'));
+insert into match (id, date, time, state, goals_home, goals_away, tournament_id, team_home_id, team_away_id, referee_id) values(nextval('match_seq'), '2026-04-07', '18:00:00', 'PLAYED', 2, 2, (select id from tournament where name = 'Serie A' and year = 2026), (select id from team where name = 'Juventus'), (select id from team where name = 'Milan'), (select id from referee where referee_code = 'R-1002'));
+insert into match (id, date, time, state, goals_home, goals_away, tournament_id, team_home_id, team_away_id, referee_id) values(nextval('match_seq'), '2026-05-15', '21:00:00', 'PLAYED', 2, 1, (select id from tournament where name = 'Coppa Italia' and year = 2026), (select id from team where name = 'Inter'), (select id from team where name = 'Roma'), (select id from referee where referee_code = 'R-1001'));
 
--- Partite SCHEDULED da effettuare
-insert into match (id, date, time, state, tournament_id, team_home_id, team_away_id, referee_id) values(nextval('match_seq'), '2025-11-20', '20:45:00', 'SCHEDULED', (select id from tournament where name = 'Serie A' and year = 2025), (select id from team where name = 'Milan'), (select id from team where name = 'Roma'), (select id from referee where referee_code = 'R-1001'));
-insert into match (id, date, time, state, tournament_id, team_home_id, team_away_id, referee_id) values(nextval('match_seq'), '2025-12-10', '18:00:00', 'SCHEDULED', (select id from tournament where name = 'Coppa Italia' and year = 2025), (select id from team where name = 'Juventus'), (select id from team where name = 'Inter'), (select id from referee where referee_code = 'R-1002'));
+-- Partite SCHEDULED da effettuare (Devono essere nel futuro rispetto ad oggi, es. fine 2026)
+insert into match (id, date, time, state, tournament_id, team_home_id, team_away_id, referee_id) values(nextval('match_seq'), '2026-11-20', '20:45:00', 'SCHEDULED', (select id from tournament where name = 'Serie A' and year = 2026), (select id from team where name = 'Milan'), (select id from team where name = 'Roma'), (select id from referee where referee_code = 'R-1001'));
+insert into match (id, date, time, state, tournament_id, team_home_id, team_away_id, referee_id) values(nextval('match_seq'), '2026-12-10', '18:00:00', 'SCHEDULED', (select id from tournament where name = 'Coppa Italia' and year = 2026), (select id from team where name = 'Juventus'), (select id from team where name = 'Inter'), (select id from referee where referee_code = 'R-1002'));
 
 insert into users (id, name, surname, username) values(nextval('users_seq'), 'Admin', 'Calcio', 'admin');
 insert into users (id, name, surname, username) values(nextval('users_seq'), 'Mario', 'Rossi', 'mario');
@@ -37,12 +37,12 @@ insert into credentials (id, username, password, role, user_id) values(nextval('
 insert into credentials (id, username, password, role, user_id) values(nextval('credentials_seq'), 'mario', '$2a$10$yWAIDyuEr78BBBFZ5cYh8.Nw4gUHFTRG5FwaWqNCGeOD8M4mh3.xy', 'DEFAULT', (select id from users where username = 'mario'));
 insert into credentials (id, username, password, role, user_id) values(nextval('credentials_seq'), 'luigi', '$2a$10$yWAIDyuEr78BBBFZ5cYh8.Nw4gUHFTRG5FwaWqNCGeOD8M4mh3.xy', 'DEFAULT', (select id from users where username = 'luigi'));
 
-insert into tournament_teams (tournaments_id, teams_id) values((select id from tournament where name = 'Serie A' and year = 2025), (select id from team where name = 'Roma'));
-insert into tournament_teams (tournaments_id, teams_id) values((select id from tournament where name = 'Serie A' and year = 2025), (select id from team where name = 'Lazio'));
-insert into tournament_teams (tournaments_id, teams_id) values((select id from tournament where name = 'Serie A' and year = 2025), (select id from team where name = 'Juventus'));
-insert into tournament_teams (tournaments_id, teams_id) values((select id from tournament where name = 'Serie A' and year = 2025), (select id from team where name = 'Milan'));
-insert into tournament_teams (tournaments_id, teams_id) values((select id from tournament where name = 'Coppa Italia' and year = 2025), (select id from team where name = 'Inter'));
-insert into tournament_teams (tournaments_id, teams_id) values((select id from tournament where name = 'Coppa Italia' and year = 2025), (select id from team where name = 'Roma'));
+insert into tournament_teams (tournaments_id, teams_id) values((select id from tournament where name = 'Serie A' and year = 2026), (select id from team where name = 'Roma'));
+insert into tournament_teams (tournaments_id, teams_id) values((select id from tournament where name = 'Serie A' and year = 2026), (select id from team where name = 'Lazio'));
+insert into tournament_teams (tournaments_id, teams_id) values((select id from tournament where name = 'Serie A' and year = 2026), (select id from team where name = 'Juventus'));
+insert into tournament_teams (tournaments_id, teams_id) values((select id from tournament where name = 'Serie A' and year = 2026), (select id from team where name = 'Milan'));
+insert into tournament_teams (tournaments_id, teams_id) values((select id from tournament where name = 'Coppa Italia' and year = 2026), (select id from team where name = 'Inter'));
+insert into tournament_teams (tournaments_id, teams_id) values((select id from tournament where name = 'Coppa Italia' and year = 2026), (select id from team where name = 'Roma'));
 
 -- Aggiunta giocatori per avere almeno 4 giocatori per squadra
 insert into player (id, name, surname, date_of_birth, role, height, team_id) values(nextval('player_seq'), 'Alessandro', 'Del Piero', '1974-11-09', 'ATTACCANTE', 174, (select id from team where name = 'Juventus'));
@@ -65,9 +65,9 @@ insert into player (id, name, surname, date_of_birth, role, height, team_id) val
 insert into player (id, name, surname, date_of_birth, role, height, team_id) values(nextval('player_seq'), 'Sergej', 'Milinkovic-Savic', '1995-02-27', 'CENTROCAMPISTA', 191, (select id from team where name = 'Lazio'));
 
 -- Aggiunta commenti
-insert into comments (id, text, author_id, match_id) values(nextval('comment_seq'), 'Partita incredibile, il derby non delude mai!', (select id from users where username = 'mario'), (select id from match where date = '2025-09-01'));
-insert into comments (id, text, author_id, match_id) values(nextval('comment_seq'), 'La Lazio meritava di più secondo me.', (select id from users where username = 'luigi'), (select id from match where date = '2025-09-01'));
+insert into comments (id, text, author_id, match_id) values(nextval('comment_seq'), 'Partita incredibile, il derby non delude mai!', (select id from users where username = 'mario'), (select id from match where date = '2026-04-01'));
+insert into comments (id, text, author_id, match_id) values(nextval('comment_seq'), 'La Lazio meritava di più secondo me.', (select id from users where username = 'luigi'), (select id from match where date = '2026-04-01'));
 
-insert into comments (id, text, author_id, match_id) values(nextval('comment_seq'), 'Un classico del calcio italiano, sempre bello vederlo.', (select id from users where username = 'paolo'), (select id from match where date = '2025-09-07'));
+insert into comments (id, text, author_id, match_id) values(nextval('comment_seq'), 'Un classico del calcio italiano, sempre bello vederlo.', (select id from users where username = 'paolo'), (select id from match where date = '2026-04-07'));
 
-insert into comments (id, text, author_id, match_id) values(nextval('comment_seq'), 'Non vedo l''ora di guardarla allo stadio!', (select id from users where username = 'mario'), (select id from match where date = '2025-11-20'));
+insert into comments (id, text, author_id, match_id) values(nextval('comment_seq'), 'Non vedo l''ora di guardarla allo stadio!', (select id from users where username = 'mario'), (select id from match where date = '2026-11-20'));
