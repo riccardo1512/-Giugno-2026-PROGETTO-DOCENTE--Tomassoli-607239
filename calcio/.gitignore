@@ -39,3 +39,6 @@ frontend/.npm/
 
 ### Security Secrets ###
 application-secrets.properties
+
+### CloudFormation ###
+aws-infrastructure.yml
