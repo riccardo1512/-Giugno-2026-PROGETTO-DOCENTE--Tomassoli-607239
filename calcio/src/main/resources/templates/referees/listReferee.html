@@ -27,6 +27,10 @@
     </header>
 	<h1>Elenco Arbitri</h1>
 	
+	<div th:if="${userDetails != null and userDetails.authorities[0].authority == 'ADMIN'}" style="margin-bottom: 20px;">
+		<a th:href="@{/admin/referees/new}" class="btn-action">➕ Aggiungi Arbitro</a>
+	</div>
+	
 	<div th:if="${not #lists.isEmpty(referees)}">
 		<ul>
 			<li th:each="referee : ${referees}">

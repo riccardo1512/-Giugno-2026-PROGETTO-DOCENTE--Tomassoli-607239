@@ -24,6 +24,10 @@
         </div>
     </header>
 	<h1>Giocatori</h1>
+	
+	<div th:if="${userDetails != null and userDetails.authorities[0].authority == 'ADMIN'}" style="margin-bottom: 20px;">
+		<a th:href="@{/admin/players/new}" class="btn-action">➕ Aggiungi Giocatore</a>
+	</div>
 	<div th:if="${players==null || players.isEmpty()}">Non ci sono giocatori nel sistema</div>
 	<ul>
 		<li th:each="player : ${players}">

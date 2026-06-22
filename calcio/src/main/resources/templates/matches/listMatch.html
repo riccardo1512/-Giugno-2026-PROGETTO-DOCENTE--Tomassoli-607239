@@ -24,6 +24,10 @@
         </div>
     </header>
 	<h1>Partite</h1>
+	
+	<div th:if="${userDetails != null and userDetails.authorities[0].authority == 'ADMIN'}" style="margin-bottom: 20px;">
+		<a th:href="@{/admin/matches/new}" class="btn-action">➕ Aggiungi Partita</a>
+	</div>
 	<div th:if="${matches==null || matches.isEmpty()}">Non ci sono partite nel sistema</div>
 	<ul>
 		<li th:each="match : ${matches}">
