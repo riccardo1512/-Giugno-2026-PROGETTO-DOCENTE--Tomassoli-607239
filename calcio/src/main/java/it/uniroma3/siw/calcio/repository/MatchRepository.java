@@ -16,4 +16,7 @@ public interface MatchRepository extends JpaRepository<Match, Long>{
     // Ottimizzazione: JOIN FETCH multipli su associazioni singole per evitare query N+1 nella vista
     @Query("SELECT m FROM Match m JOIN FETCH m.teamHome JOIN FETCH m.teamAway LEFT JOIN FETCH m.referee WHERE m.id = :id")
     Optional<Match> findByIdWithDetails(@Param("id") Long id);
+
+    @Query("SELECT m FROM Match m JOIN FETCH m.teamHome JOIN FETCH m.teamAway LEFT JOIN FETCH m.referee")
+    List<Match> findAllWithDetails();
 }

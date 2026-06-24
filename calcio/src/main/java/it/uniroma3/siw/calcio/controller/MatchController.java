@@ -40,7 +40,7 @@ public class MatchController {
 
     @GetMapping("/matches")
     public String list(Model model) {
-        model.addAttribute("matches", matchService.findAll());
+        model.addAttribute("matches", matchService.findAllWithDetails());
         return "matches/listMatch";
     }
 

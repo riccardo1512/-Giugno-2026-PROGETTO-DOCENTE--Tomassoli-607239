@@ -25,6 +25,11 @@ public class PlayerService {
     }
 
     @Transactional(readOnly = true)
+    public List<Player> findAllWithTeam() {
+        return playerRepository.findAllWithTeam();
+    }
+
+    @Transactional(readOnly = true)
     public Optional<Player> findById(Long id) {
         return playerRepository.findById(id);
     }

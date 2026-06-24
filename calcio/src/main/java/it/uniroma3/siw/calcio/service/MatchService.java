@@ -41,6 +41,11 @@ public class MatchService {
         return (List<Match>) matchRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
+    public List<Match> findAllWithDetails() {
+        return matchRepository.findAllWithDetails();
+    }
+
     @Transactional
     public void deleteById(Long id) {
         Optional<Match> matchOpt = matchRepository.findById(id);
