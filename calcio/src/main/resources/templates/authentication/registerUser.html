@@ -22,22 +22,18 @@
         </div>
     </header>
 
-	<form th:action="@{/register}" method="POST" th:object="${user}" class="auth-card">
+	<form th:action="@{/register}" method="POST" class="auth-card">
 		<h1>Registrati</h1>
 		
-		<div th:if="${#fields.hasGlobalErrors()}">
-			<p class="error-message" th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p>
-		</div>
-
 		<div>
 			<label>Nome</label>
 			<input type="text" th:field="${user.name}" required placeholder="Il tuo nome" />
-			<span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+			<span th:if="${#fields.hasErrors('user.name')}" th:errors="${user.name}"></span>
 		</div>
 		<div>
 			<label>Cognome</label>
 			<input type="text" th:field="${user.surname}" required placeholder="Il tuo cognome" />
-			<span th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></span>
+			<span th:if="${#fields.hasErrors('user.surname')}" th:errors="${user.surname}"></span>
 		</div>
 		<div>
 			<label>Username</label>
